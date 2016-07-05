@@ -1,0 +1,181 @@
+\documentclass{article}
+
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{listings}
+% \usepackage{menukeys}
+\usepackage[driverfallback=dvipdfm]{hyperref}
+
+\definecolor{lgray}{rgb}{0.8,0.8,0.8}
+\definecolor{dgrin}{rgb}{0,0.6,0}
+\definecolor{ngray}{rgb}{0.5,0.5,0.5}
+\definecolor{nmauv}{rgb}{0.58,0,0.82}
+
+
+\lstset{frame=tb,
+	aboveskip=3mm,
+	language=C++,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle={\small\ttfamily\color{ngray}},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dgrin},
+	stringstyle=\color{nmauv},
+	backgroundcolor=\color{lgray},
+	breaklines=true,
+	frame=single,
+	breakatwhitespace=true,
+	tabsize=4
+}
+\renewcommand\lstlistingname{Snippet}
+\renewcommand\lstlistlistingname{Snippet}
+\def\lstlistingautorefname{Snp.}
+
+\begin{document}
+
+\newcommand{\inlncd}[1]{\colorbox{lgray}{\texttt{#1}}}
+
+
+
+
+\title{A short introduction to Arduino Programming}
+\author{Fauzan}
+\maketitle
+
+\section{What's the program?}
+	Armed with an LED, you want to banish darkness at the push of a button\@. Because just using a battery and wires and sticky black tape is so fifth grade stuff, you are going to use the mighty Arduino as your saviour. Congratulations, you have defined your \textbf{Problem}.
+
+	\begin{lstlisting}
+	I want to banish darkness at the push of a button with the Arduino as my saviour.
+	\end{lstlisting}
+
+	You know what you want to do, but how are you going to do it? How is a \textit{dumb someone else} (lets call hime Dumbo) going to do it? Dumbo may have no moral obligations of banshing darkness and elightening your path. Actually, Dumbo does not even know why darkness is evil or enlightenment is virtuos. You have to give line by line instructions to Dumbo, explaining what to do. Tricky, isn't it? This instruction set is the \textbf{Algorithm}. The algorithm to the above problem is given below.
+
+	\begin{lstlisting}
+	Hey Dumbo!
+
+	Check the button.
+
+	If button is pressed and LED is OFF, turn LED ON.
+	If button is released and LED is ON, turn LED OFF.
+
+	Repeat lines 3-8.
+	\end{lstlisting}
+
+	But our Dumbo, the Arduino does not know about LEDs and buttons. It has I/O pins and knows how to read and set voltages. Let us try to write our algorithm in terms of pins and voltages.
+
+	\begin{lstlisting}
+	#Button terminal A is at 5V pin
+	#Button terminal B is at pin 2
+	#LED cathode is at pin 13
+
+	Set pin 2 to input mode
+	Set pin 13 to output mode
+
+	Create a variable named "state"
+
+	state = value at pin 2
+
+	If state = HI, Set pin 13 to HI
+	If state = LO, Set pin 13 to LO
+
+	Goto line 10
+	\end{lstlisting}
+
+	We have another obstacle. Dumbos come in all shapes and sizes. Worst, hardly any of them are fluent in English. Dumbos understand languages which are, by today's standards, extraordinarily tedious for us to directly write in. Arduino understands hex code which looks like this.
+
+	\lstinputlisting[firstnumber=27, linerange=27-42]{./Resources/Codes/Button/Button.ino.standard.hex}
+
+	However, we can \textbf{Program} in easier languages which can be translated to Dumbo language. Or, high level languages can be compiled to low level languages. Programs written in a high level language, C++ can be compiled to a hex file, which is then uploaded to the arduino. You can also write code in Assembly, a low level language, and compile it to hex.
+
+	The Arduino sketch for our algorithm looks like this. It will be explained in further sections.
+
+	\lstinputlisting[language=C++]{./Resources/Codes/Button/Button.ino}
+
+	You can not upload the above C++ code directly to the Arduino. It has to be compiled to a lower level language (C++ is a high level language). For that we need a \textbf{Compiler}. Some people have combined an editor, compiler, uploader and other nice things into a single package, the Arduino IDE\@.
+
+	Note that the IDE is not necessary to work with, but recommended. You can use your own language, editor, compiler and uploader.
+
+\section{Setup the Arduino IDE}
+
+	The relevant packages can be obtained from \url{www.arduino.cc/en/Main/Software}. In the time the package downloads, you can go throuvh the next section.
+
+	\subsection{Windows}
+		Download and run the installer.
+
+	\subsection{Linux}
+
+		Download the \inlncd{arduino-1.X.X-linuxXX.tar.xz} archive. Open the terminal and run the below commands one by one\@. Navigate to the \texttt{Downloads} directory, extract the archive, move it to \texttt{opt} directory and execute script to create desktop shortcut, menu item and file associations.
+
+		\begin{lstlisting}[language=bash]
+		cd Downloads
+		tar -xvf arduino-1.X.X-linuxXX.tar.xz
+		sudo mv arduino-1.X.X /opt
+		cd /opt/arduino-1.X.X/
+		./install.sh
+		\end{lstlisting}
+
+	\subsection{Browser}
+		Go to \url{create.arduino.cc/editor/}
+
+\section{Arduino sketches}
+	Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}.
+
+	\subsection{Variables}
+
+		You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, chararcters, booleans, etc. Before you can use a variable, you have to create it by writing a declaration statement.
+
+		\begin{lstlisting}[caption={Declaration}, label=declaration]
+		int apples;
+		\end{lstlisting}
+
+		The above statment creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{4 bytes} of memory. Presently, the memory contains a \inlncd{garbage value}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
+
+		\begin{lstlisting}[caption={Assignment}, label=assignment]
+		apples = 7;
+		\end{lstlisting}
+
+		You can declare and assign value to a variable in a single statement.
+
+		\begin{lstlisting}[caption={Assignment}, label=assignment]
+		int apples = 7;
+		\end{lstlisting}
+
+		You can declare different types of variables.
+
+		\begin{lstlisting}
+		int apples = 5;
+		float applejuice = 3.4;
+		char initial = 'A';
+		bool isfruit = true;
+		\end{lstlisting}
+
+	\subsection{Expressions}
+
+		You can do mathematical operations in the sketch.
+
+		\begin{lstlisting}[caption={Expressions}, label=expressions]
+		1+2;			//Evaluates to 3
+		5-9;			//Evaluates to -4
+		apples*7;		//Evaluates to 28, since apples = 5
+		24/4;			//Evaluates to 6
+		sizeof(int);	//Evaluates to 4
+		\end{lstlisting}
+
+		\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operstors need one or more ardguments.
+
+		Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
+
+		\begin{lstlisting}[caption={Expressions}, label=expressions]
+		1%2;			//Evaluates to 0
+		2%2;			//Evaluates to 1
+		3%2;			//Evaluates to 0
+		13%apples;		//Evaluates to 3
+		\end{lstlisting}
+
+\end{document}
