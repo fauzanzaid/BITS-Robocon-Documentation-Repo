@@ -1,0 +1,11 @@
+	.tex to .dvi
+latex <file>
+/usr/local/texlive/2016/bin/x86_64-linux/latex <file>
+
+
+	.dvi to .pdf
+dvipdfm <file>
+/usr/local/texlive/2016/bin/x86_64-linux/dvipdfm <file>
+
+	Open pdf/dvi
+evince <file>
