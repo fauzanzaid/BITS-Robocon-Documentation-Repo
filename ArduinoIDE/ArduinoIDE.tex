@@ -97,85 +97,181 @@
 
 	\lstinputlisting[language=C++]{./Resources/Codes/Button/Button.ino}
 
-	You can not upload the above C++ code directly to the Arduino. It has to be compiled to a lower level language (C++ is a high level language). For that we need a \textbf{Compiler}. Some people have combined an editor, compiler, uploader and other nice things into a single package, the Arduino IDE\@.
+	You can not upload the above code directly to the Arduino. It has to be compiled to a lower level language (C++ is a high level language). For that we need a \textbf{Compiler}. Some people have combined an editor, compiler, uploader and other nice things into a single package, the Arduino IDE\@.
 
 	Note that the IDE is not necessary to work with, but recommended. You can use your own language, editor, compiler and uploader.
 
 \section{Setup the Arduino IDE}
 
-	The relevant packages can be obtained from \url{www.arduino.cc/en/Main/Software}. In the time the package downloads, you can go throuvh the next section.
+	\subsection{Download and install the IDE}
 
-	\subsection{Windows}
-		Download and run the installer.
+		The relevant packages can be obtained from \url{www.arduino.cc/en/Main/Software}. In the time the package downloads, you can go through the next section.
 
-	\subsection{Linux}
+		\subsubsection{Windows}
+			Download and run the installer.
 
-		Download the \inlncd{arduino-1.X.X-linuxXX.tar.xz} archive. Open the terminal and run the below commands one by one\@. Navigate to the \texttt{Downloads} directory, extract the archive, move it to \texttt{opt} directory and execute script to create desktop shortcut, menu item and file associations.
+		\subsubsection{Linux}
 
-		\begin{lstlisting}[language=bash]
-		cd Downloads
-		tar -xvf arduino-1.X.X-linuxXX.tar.xz
-		sudo mv arduino-1.X.X /opt
-		cd /opt/arduino-1.X.X/
-		./install.sh
-		\end{lstlisting}
+			Download the \inlncd{arduino-1.X.X-linuxXX.tar.xz} archive. Open the terminal and run the below commands one by one\@. Navigate to the \texttt{Downloads} directory, extract the archive, move it to \texttt{opt} directory and execute script to create desktop shortcut, menu item and file associations.
 
-	\subsection{Browser}
-		Go to \url{create.arduino.cc/editor/}
+			\begin{lstlisting}[language=bash]
+			cd Downloads
+			tar -xvf arduino-1.X.X-linuxXX.tar.xz
+			sudo mv arduino-1.X.X /opt
+			cd /opt/arduino-1.X.X/
+			./install.sh
+			\end{lstlisting}
+
+		\subsubsection{Browser}
+			Go to \url{create.arduino.cc/editor/}
+
+	\subsection{Test}
+
+		Open the IDE\@. Connect the Arduino to the computer using a USB A to USB B cable. Under File, Examples, 01.Basics, select Blink. Under Tools, Board, select the proper board. Uner Tools, Port, select a port. Below the menu bar, click on the second circle with an arrow. Check the Arduino board. An LED should be blinking.
+
+		If you are getting errors, reset the Arduino board and reconnect it to the computer.
 
 \section{Arduino sketches}
-	Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}.
 
-	\subsection{Variables}
+	\subsection{Some basics}
 
-		You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, chararcters, booleans, etc. Before you can use a variable, you have to create it by writing a declaration statement.
+		Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}.
+	
+		\subsubsection{Variables}
 
-		\begin{lstlisting}[caption={Declaration}, label=declaration]
-		int apples;
-		\end{lstlisting}
+			You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, chararcters, booleans, etc. Before you can use a variable, you have to create it by writing a declaration statement.
 
-		The above statment creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{4 bytes} of memory. Presently, the memory contains a \inlncd{garbage value}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
+			\begin{lstlisting}[caption={Declaration}, label=declaration]
+			int apples;
+			\end{lstlisting}
 
-		\begin{lstlisting}[caption={Assignment}, label=assignment]
-		apples = 7;
-		\end{lstlisting}
+			The above statment creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that global variables are by default initialised to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
 
-		You can declare and assign value to a variable in a single statement.
+			\begin{lstlisting}[caption={Assignment}, label=assignment]
+			apples = 7;
+			\end{lstlisting}
 
-		\begin{lstlisting}[caption={Assignment}, label=assignment]
-		int apples = 7;
-		\end{lstlisting}
+			You can declare and assign value to a variable in a single statement.
 
-		You can declare different types of variables.
+			\begin{lstlisting}[caption={Assignment}, label=assignment]
+			int apples = 7;
+			\end{lstlisting}
 
-		\begin{lstlisting}
-		int apples = 5;
-		float applejuice = 3.4;
-		char initial = 'A';
-		bool isfruit = true;
-		\end{lstlisting}
+			You can declare different types of variables.
 
-	\subsection{Expressions}
+			\begin{lstlisting}
+			int apples = 5;
+			float applejuice = 4.5;
+			char initial = 'A';
+			bool isfruit = true;
+			\end{lstlisting}
 
-		You can do mathematical operations in the sketch.
+		\subsubsection{Expressions}
 
-		\begin{lstlisting}[caption={Expressions}, label=expressions]
-		1+2;			//Evaluates to 3
-		5-9;			//Evaluates to -4
-		apples*7;		//Evaluates to 28, since apples = 5
-		24/4;			//Evaluates to 6
-		sizeof(int);	//Evaluates to 4
-		\end{lstlisting}
+			You can do mathematical operations in the sketch.
 
-		\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operstors need one or more ardguments.
+			\begin{lstlisting}[caption={Expressions}, label=expressions]
+			1+2;			//Evaluates to 3
+			5-9;			//Evaluates to -4
+			apples*5;		//Evaluates to 28, since apples = 7
+			24/4;			//Evaluates to 6
+			sizeof(int);	//Evaluates to 4
+			\end{lstlisting}
 
-		Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
+			\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operstors need one or more ardguments.
 
-		\begin{lstlisting}[caption={Expressions}, label=expressions]
-		1%2;			//Evaluates to 0
-		2%2;			//Evaluates to 1
-		3%2;			//Evaluates to 0
-		13%apples;		//Evaluates to 3
-		\end{lstlisting}
+			Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
+
+			\begin{lstlisting}
+			1%2;			//Evaluates to 0
+			2%2;			//Evaluates to 1
+			3%2;			//Evaluates to 0
+			13%apples;		//Evaluates to 6
+			\end{lstlisting}
+
+			There are also boolean operators, AND \inlncd{\&\&}, OR \inlncd{||} and NOT \inlncd{!}.
+
+			\begin{lstlisting}
+			1&&0;			//Evaluates to 0
+			true||0;		//Evaluates to 1
+			!3;				//Evaluates to 0
+			!false;			//Evaluates to 1
+			apples||false;	//Evaluates to 1
+			\end{lstlisting}
+
+			In boolean logic, zero is equivalent to \inlncd{false}, and any non zero value is equivalent to \inlncd{true}.
+
+			What will this expression evaluate to?
+
+			\begin{lstlisting}
+			1+5*3%4;
+			\end{lstlisting}
+
+			While all operators have a precedence level, it is not easy to remember the order. We can instead use brackets to control the order of evaluation. The below expression is much easier to understand.
+
+			\begin{lstlisting}
+			% 1+((5*3)%4);
+			\end{lstlisting}
+
+			As you may have guessed, variables can be assigned as well used as arguments in an expression.
+
+			\begin{lstlisting}
+			float applejuice = apples * 0.9;	//Creates applejuice and sets it to 4.5
+			\end{lstlisting}
+
+	\subsection{Some code!}
+
+		On opening the IDE, you will see the below snippet in the code window:
+
+		\lstinputlisting[language=C++]{./Resources/Codes/BareMinimum/BareMinimum.ino}
+
+		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. The \inlncd{loop} runs repeatedly untill the Arduino is powered down.
+
+		\subsubsection{Hello World}
+			Let us now write a program that will print \inlncd{Hello World} on our computer screen. Our computer and the Arduino are two separate computers. We will need to communicate between the two. Before we can do so, we need to set the speed of communication. Add the following line to the setup function.
+
+			\begin{lstlisting}[firstnumber = 3]
+			Serial.begin(9600);
+			\end{lstlisting}
+
+			\inlncd{Serial.begin()} is a function which configures the Arduino to send data through the serial port at a baud rate wihich is given as an argument. This function takes one argument of integer type. We have provided \inlncd{9600} as an argument. Thus the Arduino will send data at a rate of 9600 baud.
+
+			Now we can send data which will printed on our screen. Add the following line to the loop function.
+
+			\begin{lstlisting}[firstnumber = 8]
+			Serial.println("Hello World");
+			\end{lstlisting}
+
+			\inlncd{Serial.println()} is a function that takes a value and sends it through the serial port. In this case, we want to send a string. A string is enclosed within two \inlncd{"}. \inlncd{Hello World} and not \inlncd{"Hello World"} will be sent through the serial port.
+
+			Our code looks like this:
+
+			\lstinputlisting[language=C++]{./Resources/Codes/Hello1/Hello1.ino}
+
+			Now we are ready to upload! Click the upload button below the menubar. This will compile the code and upload it to the Arduino.
+
+			Before we can see anything on the screen, we need to set up a serial monitor. Thankfully, it is included in the IDE. Click on the magnifying glass on the right end below the menubar. Select a baud rate equal to the one at which Arduino is sending us data, ei., 9600. You will see this on the screen:
+
+			\begin{lstlisting}[firstnumber = 1738]
+			Hello World
+			Hello World
+			Hello World
+			Hello World
+			\end{lstlisting}
+
+			What is happening here? The Arduino is printing the string once, then again, and again as fast as it can. The speed of printing is limited by the processor. What if we want a controlled output?
+
+		\subsubsection{Hello World \ldots one second please}
+
+			Say we want to print \inlncd{Hello World} once every second. There is a function \inlncd{delay()} that can help us. Add this line below \inlncd{Serial.println()}.
+
+			\begin{lstlisting}[firstnumber = 9]
+			delay(1000);
+			\end{lstlisting}
+
+			\inlncd{delay()} takes one argument, the number of milliseconds to wait. When the Arduino encounters this statement, it waits for the specified interval. 
+
+			Upload the code and check the serial monitor.
+
 
 \end{document}
