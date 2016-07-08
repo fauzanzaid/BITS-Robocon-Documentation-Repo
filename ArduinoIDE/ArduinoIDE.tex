@@ -135,29 +135,29 @@
 
 	\subsection{Some basics}
 
-		Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}.
+		Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}. Arduino sketches have \inlncd{.ino} extension. All sketches have \inlncd{abc/abc.ino} as there directory structure.
 	
 		\subsubsection{Variables}
 
-			You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, chararcters, booleans, etc. Before you can use a variable, you have to create it by writing a declaration statement.
+			You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, chararcters, booleans, etc. Before you can use a variable, you have to create it by writing a definition statement.
 
-			\begin{lstlisting}[caption={Declaration}, label=declaration]
+			\begin{lstlisting}[caption={Definition}, label=definition]
 			int apples;
 			\end{lstlisting}
 
-			The above statment creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that global variables are by default initialised to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
+			The above statment creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that static and global variables are by default initialised to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
 
 			\begin{lstlisting}[caption={Assignment}, label=assignment]
 			apples = 7;
 			\end{lstlisting}
 
-			You can declare and assign value to a variable in a single statement.
+			You can define and assign value to a variable in a single statement.
 
 			\begin{lstlisting}[caption={Assignment}, label=assignment]
 			int apples = 7;
 			\end{lstlisting}
 
-			You can declare different types of variables.
+			You can define different types of variables.
 
 			\begin{lstlisting}
 			int apples = 5;
@@ -175,7 +175,7 @@
 			5-9;			//Evaluates to -4
 			apples*5;		//Evaluates to 28, since apples = 7
 			24/4;			//Evaluates to 6
-			sizeof(int);	//Evaluates to 4
+			sizeof(int);	//Evaluates to 2
 			\end{lstlisting}
 
 			\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operstors need one or more ardguments.
@@ -187,6 +187,18 @@
 			2%2;			//Evaluates to 1
 			3%2;			//Evaluates to 0
 			13%apples;		//Evaluates to 6
+			\end{lstlisting}
+
+			What will this expression evaluate to?
+
+			\begin{lstlisting}
+			1+5*3%4;
+			\end{lstlisting}
+
+			While all operators have a precedence level, it is not easy to remember the order. We can instead use brackets to control the order of evaluation. The below expression is much easier to understand.
+
+			\begin{lstlisting}
+			% 1+((5*3)%4);
 			\end{lstlisting}
 
 			There are also boolean operators, AND \inlncd{\&\&}, OR \inlncd{||} and NOT \inlncd{!}.
@@ -201,23 +213,26 @@
 
 			In boolean logic, zero is equivalent to \inlncd{false}, and any non zero value is equivalent to \inlncd{true}.
 
-			What will this expression evaluate to?
+			You can also compare using \inlncd{==}, \inlncd{!=}, \inlncd{>}, \inlncd{>=}, \inlncd{<} and \inlncd{<=}.
 
 			\begin{lstlisting}
-			1+5*3%4;
+			5 == 5;				//Evaluates to 1;
+			apples != (8-1);	//Evaluates to 0;
+			5 <= -5;			//Evaluates to 0;
 			\end{lstlisting}
 
-			While all operators have a precedence level, it is not easy to remember the order. We can instead use brackets to control the order of evaluation. The below expression is much easier to understand.
 
-			\begin{lstlisting}
-			% 1+((5*3)%4);
-			\end{lstlisting}
-
-			As you may have guessed, variables can be assigned as well used as arguments in an expression.
+			As you may have guessed, variables can be assigned as well used as arguments in, an expression.
 
 			\begin{lstlisting}
 			float applejuice = apples * 0.9;	//Creates applejuice and sets it to 4.5
 			\end{lstlisting}
+
+		\subsubsection{Memory}
+
+			% Needs Expansion!
+
+			When you define a variable, a chunk of memory is reserved and a \textbf{pointer} to the memory location is returned to the variable. The pointer for \inlncd{some\_var} is given by \inlncd{\&some\_var}. The value stored at the memory location pointed to by \inlncd{some\_ptr} is given by \inlncd{*some\_ptr}.
 
 	\subsection{Some code!}
 
@@ -259,7 +274,9 @@
 			Hello World
 			\end{lstlisting}
 
-			What is happening here? The Arduino is printing the string once, then again, and again as fast as it can. The speed of printing is limited by the processor. What if we want a controlled output?
+			What is happening here? The Arduino is printing the string once, then again, and again as fast as it can. The speed of printing is limited by the processor.
+
+			If you want to print just once, you can move the \inlncd{Serial.print()} statement to the \inlncd{setup} function and empty the \inlncd{loop}.
 
 		\subsubsection{Hello World \ldots one second please}
 
@@ -273,5 +290,34 @@
 
 			Upload the code and check the serial monitor.
 
+		\subsubsection{A timer}
+
+			Let us create a timer that will count the number of seconds for us. Our algorithm will be:
+
+			\begin{lstlisting}
+			Create a variable named "sec_elapsed"
+
+			sec_elapsed = 0
+			Set serial communication baud rate
+
+			Wait one second
+			sec_elapsed = sec_elapsed + 1
+			Print sec_elapsed
+
+			Goto line 6
+			\end{lstlisting}
+
+			The equivalent Arduino sketch will be:
+
+			\lstinputlisting[language=C++, label=sectimer]{./Resources/Codes/SecTimer/SecTimer.ino}
+
+			You can see on line 9, how we have passed \inlncd{sec\_elapsed} as an argument to the \inlncd{Serial.print} function. Also we have used \inlncd{Serial.print} on line 9, and \inlncd{Serial.println} on line 10. \inlncd{Serial.println} also creates a new line and returns the cursor to the initial position, the same as we hit the enter key.
+
+			On line 12 we have used \inlncd{+=} operator to increment \inlncd{sec\_elapsed} by 1. \inlncd{some\_var += other\_var} is a shorthand for \inlncd{some\_var = some\_var + other\_var}.
+
+			Another subtle point is the leading space in the string on line 9.
+
+		\subsubsection{Blink an LED}
+			
 
 \end{document}
