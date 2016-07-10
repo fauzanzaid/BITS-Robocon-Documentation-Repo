@@ -48,13 +48,13 @@
 \maketitle
 
 \section{What's the program?}
-	Armed with an LED, you want to banish darkness at the push of a button\@. Because just using a battery and wires and sticky black tape is so fifth grade stuff, you are going to use the mighty Arduino as your saviour. Congratulations, you have defined your \textbf{Problem}.
+	Armed with an LED, you want to banish darkness at the push of a button\@. Because just using a battery and wires and sticky black tape is so fifth grade stuff, you are going to use the mighty Arduino as your savior. Congratulations, you have defined your \textbf{Problem}.
 
 	\begin{lstlisting}
 	I want to banish darkness at the push of a button with the Arduino as my saviour.
 	\end{lstlisting}
 
-	You know what you want to do, but how are you going to do it? How is a \textit{dumb someone else} (lets call hime Dumbo) going to do it? Dumbo may have no moral obligations of banshing darkness and elightening your path. Actually, Dumbo does not even know why darkness is evil or enlightenment is virtuos. You have to give line by line instructions to Dumbo, explaining what to do. Tricky, isn't it? This instruction set is the \textbf{Algorithm}. The algorithm to the above problem is given below.
+	You know what you want to do, but how are you going to do it? How is a \textit{dumb someone else} (lets call him Dumbo) going to do it? Dumbo may have no moral obligations of banishing darkness and enlightening your path. Actually, Dumbo does not even know why darkness is evil or enlightenment is virtuous. You have to give line by line instructions to Dumbo, explaining what to do. Tricky, isn't it? This instruction set is the \textbf{Algorithm}. The algorithm to the above problem is given below.
 
 	\begin{lstlisting}
 	Hey Dumbo!
@@ -127,25 +127,25 @@
 
 	\subsection{Test}
 
-		Open the IDE\@. Connect the Arduino to the computer using a USB A to USB B cable. Under File, Examples, 01.Basics, select Blink. Under Tools, Board, select the proper board. Uner Tools, Port, select a port. Below the menu bar, click on the second circle with an arrow. Check the Arduino board. An LED should be blinking.
+		Open the IDE\@. Connect the Arduino to the computer using a USB A to USB B cable. Under File, Examples, 01.Basics, select Blink. Under Tools, Board, select the proper board. Under Tools, Port, select a port. Below the menu bar, click on the second circle with an arrow. Check the Arduino board. An LED should be blinking.
 
 		If you are getting errors, reset the Arduino board and reconnect it to the computer.
 
-\section{Arduino sketches}
+\section{Arduino sketch basics}
 
-	\subsection{Some basics}
+	Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}. Arduino sketches have \inlncd{.ino} extension. All sketches have \inlncd{abc/abc.ino} as the directory structure.
 
-		Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}. Arduino sketches have \inlncd{.ino} extension. All sketches have \inlncd{abc/abc.ino} as there directory structure.
+	\subsection{Introduction to variables}
 	
 		\subsubsection{Variables}
 
-			You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, chararcters, booleans, etc. Before you can use a variable, you have to create it by writing a definition statement.
+			You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, characters, booleans, etc. Before you can use a variable, you have to create it by writing a definition statement.
 
 			\begin{lstlisting}[caption={Definition}, label=definition]
 			int apples;
 			\end{lstlisting}
 
-			The above statment creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that static and global variables are by default initialised to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
+			The above statement creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that static and global variables are by default initialized to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
 
 			\begin{lstlisting}[caption={Assignment}, label=assignment]
 			apples = 7;
@@ -178,7 +178,7 @@
 			sizeof(int);	//Evaluates to 2
 			\end{lstlisting}
 
-			\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operstors need one or more ardguments.
+			\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operators need one or more ardguments.
 
 			Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
 
@@ -234,13 +234,28 @@
 
 			When you define a variable, a chunk of memory is reserved and a \textbf{pointer} to the memory location is returned to the variable. The pointer for \inlncd{some\_var} is given by \inlncd{\&some\_var}. The value stored at the memory location pointed to by \inlncd{some\_ptr} is given by \inlncd{*some\_ptr}.
 
+			You can also create a variable that can store a pointer.
+
+			\begin{lstlisting}
+			int* ptrA;		//ptrA can store a pointer to a memory location that stores an integer
+			char* ptrC;		//ptrC ... character
+			\end{lstlisting}
+
+			Usually, the assignment is not done directly, but by usng the \inlncd{\&} on some other variable.
+
+			\begin{lstlisting}
+			ptrA = &apples;
+			ptrC = &initial;
+			\end{lstlisting}
+
+
 	\subsection{Some code!}
 
 		On opening the IDE, you will see the below snippet in the code window:
 
 		\lstinputlisting[language=C++]{./Resources/Codes/BareMinimum/BareMinimum.ino}
 
-		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. The \inlncd{loop} runs repeatedly untill the Arduino is powered down.
+		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. The \inlncd{loop} runs repeatedly until the Arduino is powered down.
 
 		\subsubsection{Hello World}
 			Let us now write a program that will print \inlncd{Hello World} on our computer screen. Our computer and the Arduino are two separate computers. We will need to communicate between the two. Before we can do so, we need to set the speed of communication. Add the following line to the setup function.
@@ -249,53 +264,70 @@
 			Serial.begin(9600);
 			\end{lstlisting}
 
-			\inlncd{Serial.begin()} is a function which configures the Arduino to send data through the serial port at a baud rate wihich is given as an argument. This function takes one argument of integer type. We have provided \inlncd{9600} as an argument. Thus the Arduino will send data at a rate of 9600 baud.
+			\inlncd{Serial.begin()} is a function which configures the Arduino to send data through the serial port at a baud rate which is given as an argument. This function takes one argument of integer type. We have provided \inlncd{9600} as an argument. Thus, the Arduino will send data at a rate of 9600 baud.
 
-			Now we can send data which will printed on our screen. Add the following line to the loop function.
+			Now we can send data which will printed on our screen. Add the following line below \inlncd{Serial.begin()}, inside the setup function.
 
-			\begin{lstlisting}[firstnumber = 8]
+			\begin{lstlisting}[firstnumber = 4]
 			Serial.println("Hello World");
 			\end{lstlisting}
 
-			\inlncd{Serial.println()} is a function that takes a value and sends it through the serial port. In this case, we want to send a string. A string is enclosed within two \inlncd{"}. \inlncd{Hello World} and not \inlncd{"Hello World"} will be sent through the serial port.
+			\inlncd{Serial.println()} is a function that takes a value and sends it through the serial port. In this case, we want to send a string. A string is enclosed within two \inlncd{"}. \inlncd{Hello World}, and not \inlncd{"Hello World"}, will be sent through the serial port.
 
 			Our code looks like this:
 
 			\lstinputlisting[language=C++]{./Resources/Codes/Hello1/Hello1.ino}
 
-			Now we are ready to upload! Click the upload button below the menubar. This will compile the code and upload it to the Arduino.
+			Now we are ready to upload! Click the round upload button below the menubar. This will compile the code and upload it to the Arduino.
 
-			Before we can see anything on the screen, we need to set up a serial monitor. Thankfully, it is included in the IDE. Click on the magnifying glass on the right end below the menubar. Select a baud rate equal to the one at which Arduino is sending us data, ei., 9600. You will see this on the screen:
+			Before we can see anything on the screen, we need to set up a serial monitor. Thankfully, it is included in the IDE. Click on the magnifying glass icon on the right end below the menubar. Select a baud rate equal to the one at which Arduino is sending us data, ei., 9600. You will see this on the screen:
 
-			\begin{lstlisting}[firstnumber = 1738]
-			Hello World
-			Hello World
-			Hello World
+			\begin{lstlisting}
 			Hello World
 			\end{lstlisting}
 
-			What is happening here? The Arduino is printing the string once, then again, and again as fast as it can. The speed of printing is limited by the processor.
+		\subsubsection{Blink an LED}
 
-			If you want to print just once, you can move the \inlncd{Serial.print()} statement to the \inlncd{setup} function and empty the \inlncd{loop}.
+			Let us blink the onboard LED, which is attached to pin 13. Our algorithm will be:
 
-		\subsubsection{Hello World \ldots one second please}
+			\begin{lstlisting}
+			Set pin 13 to Output
 
-			Say we want to print \inlncd{Hello World} once every second. There is a function \inlncd{delay()} that can help us. Add this line below \inlncd{Serial.println()}.
+			Set pin 13 to HI
+			Set pin 13 to LO
+			Goto line 3
+			\end{lstlisting}
 
-			\begin{lstlisting}[firstnumber = 9]
+			The equivalent sketch will be:
+
+			\lstinputlisting[language=C++]{./Resources/Codes/Blink0/Blink0.ino}
+
+			We have used two new functions in our sketch.
+
+			\inlncd{pinMode()} is a function that takes two parameters. The first parameter is the pin number, and the second is the mode of the pin. Pin mode can be  \inlncd{INPUT}, \inlncd{OUTPUT} or \inlncd{INPUT\_PULLUP}. We want to use our pin as \inlncd{OUTPUT}.
+
+			\inlncd{digitalWrite} also takes two parameters, the first is the pin number. The second is the logic level, it can be \inlncd{HIGH} (5V)\footnote{On 3.3V boards, it is 3.3V} or \inlncd{LOW} (0V).
+
+			Upload the sketch.
+
+			What is happening here? The Arduino is switching on, then off, and on and off again and again as fast as it can, faster than we can comprehend. The speed of blinking is only limited by the processor.
+
+			If want to blink the LED every second, there is a function \inlncd{delay()} that can help us. Add this line after you set the pin high, and after you set the pin low.
+
+			\begin{lstlisting}[numbers = none]
 			delay(1000);
 			\end{lstlisting}
 
-			\inlncd{delay()} takes one argument, the number of milliseconds to wait. When the Arduino encounters this statement, it waits for the specified interval. 
+			\inlncd{delay()} takes one parameter, the number of milliseconds to wait. When the Arduino encounters this statement, it waits for the specified interval. 
 
-			Upload the code and check the serial monitor.
+			Upload the code and check the LED now.
 
 		\subsubsection{A timer}
 
 			Let us create a timer that will count the number of seconds for us. Our algorithm will be:
 
 			\begin{lstlisting}
-			Create a variable named "sec_elapsed"
+			Create a variable named sec_elapsed
 
 			sec_elapsed = 0
 			Set serial communication baud rate
@@ -311,13 +343,521 @@
 
 			\lstinputlisting[language=C++, label=sectimer]{./Resources/Codes/SecTimer/SecTimer.ino}
 
-			You can see on line 9, how we have passed \inlncd{sec\_elapsed} as an argument to the \inlncd{Serial.print} function. Also we have used \inlncd{Serial.print} on line 9, and \inlncd{Serial.println} on line 10. \inlncd{Serial.println} also creates a new line and returns the cursor to the initial position, the same as we hit the enter key.
+			You can see on line 9, how we have passed \inlncd{sec\_elapsed} as an argument to the \inlncd{Serial.print} function. Also we have used \inlncd{Serial.print} on line 9, and \inlncd{Serial.println} on line 10. \inlncd{Serial.println} also creates a new line and returns the cursor to the initial position, the same effect the enter key perfoorms in a text editor.
 
 			On line 12 we have used \inlncd{+=} operator to increment \inlncd{sec\_elapsed} by 1. \inlncd{some\_var += other\_var} is a shorthand for \inlncd{some\_var = some\_var + other\_var}.
 
 			Another subtle point is the leading space in the string on line 9.
 
-		\subsubsection{Blink an LED}
+\section{Control structures}
+
+	Many times, we need to execute a code snippet repeatedly or on satisfaction of a condition. Control structures can control the flow of a sketch. 
+
+	\subsection{if\ldots else}
+
+		The \inlncd{if \ldots else} structure is used to check a condition and execute corresponding statements.
+
+		\subsubsection{Simple if}
+
+			\begin{lstlisting}
+			if ( /*condition*/ )
+				// do something
+			\end{lstlisting}
+
+			If the condition expression inside the parenthesis is true, the following statement or block is executed. Multiple statements enclosed by braces is a block.
+
+			\begin{lstlisting}
+			if ( /*condition*/ )
+			{
+				// do this
+				// and this
+			}
+			\end{lstlisting}
+
+			In the below snippet, the second statement is always executed. It does not belong to the if structure. Only the first statement belongs to the if structure.
+
+			\begin{lstlisting}
+			if ( /*condition*/ )
+				// do thing A
+				// do thing B
+			\end{lstlisting}
+
+			An example:
+
+			\begin{lstlisting}
+			if ( senVal >= 50 )		//No semicolon here!
+			{
+				digitalWrite( ledPin, HIGH );
+				counter++;
+			}						//No semicolon here!
+			\end{lstlisting}
+
+		\subsubsection{Branching}
+
+			\begin{lstlisting}
+			if ( /*condition*/ )
+				// do something
+			else 
+				// do this
+			\end{lstlisting}
+
+			If the condition evaluates to \inlncd{false} or \inlncd{0}, The statement(s) after \inlncd{else} is(are) executed.
+
+			You can supply \inlncd{else} with another \inlncd{if} or \inlncd{if\ldots else} structure. 
+
+			In the below snippet, the second statement is executed if and only if conditions A is false and B true. Condition C is not checked. The third statement is executed iff conditions A and B both are false, and C is true. The fourth statement is executed iff all three conditions are false.
+
+			\begin{lstlisting}
+			if ( /*condition A*/ )
+				// do thing A
+			else if ( /*condition B*/ )
+				// do thing B
+			else if ( /*condition C*/ )
+				// do thing C
+			else
+				// do thing D
+			\end{lstlisting}
+
+			An example:
+
+			\begin{lstlisting}
+			if ( senVal >= 50 )
+			{
+				digitalWrite( led1Pin, HIGH );
+				counter1++;
+			}
+
+			else if (senVal >= 25)	//What would happen if we checked this before senVal>=50?
+			{
+				digitalWrite( led2Pin, HIGH );
+				counter2++;
+			}
+
+			else 
+				counter0++;
+
+			\end{lstlisting}
+
+	\subsection{switch}
+
+		The switch structure is used when you want to execute particular statements if the value of a variable matches one of the values supplied in the structure.
+
+		\begin{lstlisting}
+		switch ( some_var )
+		{
+			case val_A:
+				//1 do something when some_var equals val_A
+				break;	//exits the structure
+			case val_B:
+				//2 do this when some_var equals val_B
+				//3 and this too
+				break;
+			default:
+				//4 do this when some_var matches none of the above values.
+				break;
+		}
+		\end{lstlisting}
+
+		The \inlncd{break} statement is necessary to avoid the control to fall through all the statements below the satisfied case. If the second break statement was absent, and \inlncd{some\_var} was equal to val\_B, statements 2, 3 and 4; all would have been executed. When the break statement is encountered, the control exits the switch structure.
+
+	\subsection{while and do\ldots while}
+
+		While loops are used to execute code repeatedly until a given condition is \inlncd{true} or \inlncd{1}.
+
+		\subsubsection{Simple while}
+
+			The condition is checked before every iteration. If true, the following statement or block is executed and again condition is checked and so on. If false, the statement/block is skipped and control goes ahead.
+
+			\begin{lstlisting}
+			while ( /*condition*/ )
+			{
+				//do something
+			}
+			\end{lstlisting}
+
+		\subsubsection{do\ldots while}
+
+			It is same as the above while loop, but the condition is not checked before the first iteration. Thus, the statement/block is guaranteed to execute at least once.
+
+			\begin{lstlisting}
+			do
+			{
+				//do something
+			}
+			while ( /*condition*/ )
+			\end{lstlisting}
+
+	\subsection{for}
+
+		For loops are used to execute a code snippet a number of times.
+
+		\begin{lstlisting}
+		for ( /*initialization*/; /*condition*/; /*increment*/)
+		{
+			//do something
+		}
+		\end{lstlisting}
+
+		The initialization is executed just once in the beginning. The condition is checked. If true, the statement/block is executed, and then the increment is executed. Again the condition is checked, and so on.
+
+		The below code will print all integers from 1 to 100.
+
+		\begin{lstlisting}
+		for ( int i = 0; i<100; i++)	//You can define a variable inside
+		{
+			Serial.println(i+1);
+		}
+		\end{lstlisting}
+
+		The below code prints all powers of 2 upto 5000.
+
+		\begin{lstlisting}
+
+		int i; 		//You can define a variable outside.
+
+		for (i = 2; i<=5000;)
+		{
+			Serial.println(i);
+			i*=2	//You can increment i here too.
+		}
+		\end{lstlisting}
+
+		All the three parameters are optional in a for loop, but the two \inlncd{;} must be present.
+
+\section{Functions}
+	
+	If you need to re use a code many times at different places in a sketch, it is better to create a function, that when called, will execute the code. This helps in debugging, modifications can be made at just one place.
+
+	You are already defining and using setup and loop functions. These two are required functions. Only they are called when the sketch is executed. Thus, we can define our own functions outside setup and loop. But to use them, they must be called inside either setup or loop.
+
+	\subsection{Definition}
+
+		This is how a definition of a function that returns the product of two numbers supplied as arguments or parameters looks like.
+
+		\begin{lstlisting}
+		int myProduct (int num1, int num2)
+		{
+			int result;
+			result = num1 * num2;
+
+			return result;
+		}
+		\end{lstlisting}
+
+		Generalized, a function definition looks like this:
+
+		\begin{lstlisting}
+		[return type] [function name] ([argument 1 type] [argument 1 name], ... )
+		{
+			//do something
 			
+			return [some data of return type];
+		}
+		\end{lstlisting}
+
+		The formal parameter you define in the parenthesis of function definition are just placeholders for the arguments which will be supplied when the function will be called. All variables defined in the parenthesis are replaced by a local variable copy or value (which ever is given) of supplied argument throughout the function.
+
+		If we don't need our function to return anything, return type can be set to \inlncd{void}.
+
+		If a function expects no arguments, leave the parenthesis empty, do not omit them.
+		
+		\begin{lstlisting}
+		void myGreeting ()
+		{
+			Serial.println("Hello World");
+		}
+		\end{lstlisting}
+
+		A definition can be put anywhere outside of other functions, including, setup and loop.
+
+	\subsection{Call}
+
+		You can call a function anywhere in your sketch by it's name. You must supply an equal number of arguments of matching variable type.
+
+		\begin{lstlisting}
+		void setup ()
+		{
+			Serial.begin(9600);
+
+			int num = 4;
+			int product;
+
+			product = myProduct(num, 5);	//Stores 20 in product
+			//You can pass both variables as well as data as parameters
+			myGreeting();		//Prints Hello World to the Serial port
+		}
+
+		void loop ()
+		{
+			...
+		}
+
+		//Function definitions
+
+		int myProduct (int num1, int num2)
+		{
+			int result;
+			result = num1 * num2;
+
+			return result;
+		}
+
+		void myGreeting ()
+		{
+			Serial.println("Hello World");
+		}
+		
+		\end{lstlisting}
+
+	\subsection{Scope}
+
+			The area where a variable exists and can be seen is known as the scope of a variable. The scope depends on the place where a variable is defined. There are three places where you can define variables:
+
+			\begin{description}
+			\item[Local variables] defined inside a function or block.
+			\item[Global variables] defined outside of all functions.
+			\item[Formal parameters] defined within the parenthesis of function definitions.
+			\end{description}
+
+		\subsubsection{Local variables}
+
+			All variables defined inside a function body or block are local to the function or block. They can be accessed only inside the function or block. They do not exist outside.
+
+			\begin{lstlisting}
+			void setup()
+			{
+				Serial.begin(9600);
+				int var_a = 4	//var_a is local to setup function
+								//It's scope ends with setup function
+			}
+
+			//There is no var_a here...
+
+			void loop()
+			{
+				//...nor here
+				Serial.println(var_a);
+				//This code will not compile
+			}
+			\end{lstlisting}
+
+			\begin{lstlisting}
+			void setup()
+			{
+				int var_a = 4
+			}
+
+			//There is no var_a here
+
+			void loop()
+			{
+				//var_a of setup does not exist here
+				//In fact you can declare another var_a that belongs to loop function
+				int var_a = 7;
+				//Ths code will compile
+			}
+			\end{lstlisting}
+
+			At the end of the block or function, the memory occupied by local variables is deallocated.
+
+		\subsubsection{Global variables}
+
+			All variables defined outside all function are global. Global variables have global scope, they exists and can be accessed directly or modified anywhere in the sketch.
+
+			\begin{lstlisting}
+			int x = 3;
+
+			void setup()
+			{
+				Serial.begin(9600);
+				//x exists here...
+				Serial.println(x);	//x has global scope, can be accessed anywhere
+			}
+
+			//...and here...
+
+			void loop()
+			{
+				//...and here too
+				Serial.println(x++);
+			}
+			\end{lstlisting}
+
+			An interesting fact is that when a local variable of the same name as global variable is defined, the more local variable takes preference over the global variable in that scope. You can check by printing \inlncd{x} to serial port in the setup and loop functions.
+
+			\begin{lstlisting}
+			int x = 3;
+
+			void setup()
+			{
+				Serial.begin(9600);
+				int x = 7;
+				//For this scope, ei., this setup function, the new local definition of x takes preference over the global definition.
+				x++;
+				//Any changes you make to x here are local.
+				Serial.println(x);	//Prints 8 to the serial port
+			}
+
+			//Here x is the global variable
+
+			void loop()
+			{
+				//Here x is the global variable
+				Serial.println(x);	//Prints 3 to the serial port
+			}
+
+			//Here x is the global variable
+			\end{lstlisting}
+
+		\subsubsection{Formal parameters}
+
+			These are the parameters you define in a function declaration and use them in the function body. They are also treated as local variables and have local scope, and take preference over global variables.
+
+			\begin{lstlisting}
+			int a = 7, b = 12;
+
+			void setup ()
+			{
+				Serial.begin(9600);
+				myFunction(3, 5);		//Prints 3 and 5
+				Serial.println(a)		//Prints 7
+				Serial.println(b)		//Prints 12
+			}
+
+			void loop ()
+			{
+				...
+			}
+
+			//Function definitions
+
+			void myFunction(int a, int b)
+			{
+				Serial.println(a);
+				Serial.println(b);
+			}
+
+			
+			\end{lstlisting}
+				
+
+	\subsection{Passing variables: by value and by reference}
+
+		\subsubsection{Pass by value}
+
+			When we pass a variable as an argument to a function, a local copy of the variable is created. What ever the function does with this local copy has no effect on our variable. This is known as `passing by value'.
+
+			\begin{lstlisting}
+			void myFunction(int num)
+			{
+				num++;
+				Serial.println(num);
+			}
+			\end{lstlisting}
+
+			\begin{lstlisting}
+			int apples = 7;
+
+			Serial.println(apples);		//Prints 7
+			myFunction(apples);			//Prints 8
+			Serial.println(apples);		//Prints 7, as the increment was
+										//done on the local copy of apples,
+										//not apples itself
+			\end{lstlisting}
+
+			If you want a function to update a variable, you cannot pass the variable as a parameter. You can either assign the return value of a function to the variable\ldots
+
+			\begin{lstlisting}
+			void setup ()
+			{
+				int num = 6;
+				num = myIncrementer(num, 3);
+			}
+
+			void loop ()
+			{
+				...
+			}
+
+			int myIncrementer (int var, int inc)
+			{
+				var += inc;
+				return var;
+			}
+			\end{lstlisting}
+
+			\ldots{}or declare the variable as global so that it can be seen and modified inside the function.
+
+			\begin{lstlisting}
+			int num = 6;
+			
+			void setup ()
+			{
+				myIncrementer(3);
+			}
+
+			void loop ()
+			{
+				...
+			}
+
+			int myIncrementer (int inc)
+			{
+				num += inc;
+			}
+			\end{lstlisting}
+
+			In the first method, you need the function to return and also assign it to the variable. In the second function you need a global variable. Both of these can be avoided by using pointers.
+
+		\subsubsection{Pass by reference}
+
+			When passing a variable by value to a function, a local copy of the variable is made for the function. This means that our original variable and the copied variable do not share the same memory space. They are alloted different chunks of memory. Thus any changes you make in the copied variable are made at the second memory location, and the original memory location remains intact.
+
+			\begin{lstlisting}
+			void setup ()
+			{
+				Serial.begin(9600);
+				int a = 5;
+				Serial.println(&a);		//Prints memory pointer of a
+				myFunction(a);			//Prints poiter of local copy of a
+			}
+
+			void loop ()
+			{
+				...
+			}
+
+			void myFunction (int var)
+			{
+				Serial.println(&var);
+			}
+			\end{lstlisting}
+
+			Thus, you can pass a pointer to a function and access the value pointed to by the pointer.
+
+			\begin{lstlisting}
+			void setup ()
+			{
+				Serial.begin(9600);
+				int a = 5;
+				Serial.println(a);
+				myFunction(&a);
+				Serial.println(a);
+			}
+
+			void loop ()
+			{
+				...
+			}
+
+			void myFunction (int* ptr)
+			{
+				(*ptr)++;	//increment the value pointed by ptr
+			}
+			\end{lstlisting}
+
+			If you run the above sketch, you will see that the original variable \inlncd{a} has been modified.
+
+
 
 \end{document}
