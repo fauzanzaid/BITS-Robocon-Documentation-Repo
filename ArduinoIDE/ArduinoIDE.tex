@@ -349,6 +349,30 @@
 
 			Another subtle point is the leading space in the string on line 9.
 
+\section{Arduino functions}
+
+	Arduino provides a lot of default functions, some of which are explained below.
+
+	\subsection{Serial communication}
+
+		\begin{itemize}
+
+		\item \inlncd{Serial.begin()}: Set the serial communication baud rate. Takes one argument, the baud rate. Typically, you need to set it only once.
+
+		\item \inlncd{Serial.print()}: Prints data to the serial port. Takes a string or variable as an argument. You can also specify the format of a variable as a second, optional argument.
+
+		\item \inlncd{Serial.println()}: Does the same as above, in addition, appends carriage return \texttt{\textbackslash{}r} and newline \texttt{\textbackslash{}n} characters to the printed string.
+
+		\end{itemize}
+
+	\subsection{Pins}
+
+		\begin{itemize}
+
+		\item \inlncd{pinMode}: Set the mode of the pin before writing digital \texttt{HIGH} or \texttt{LOW} to it. Takes two arguments, first is the pin number, the second is the mode. Pin mode can be \texttt{INPUT}, \texttt{OUTPUT} or \texttt{INPUT\_PULLUP}.
+
+		\end{itemize}
+
 \section{Control structures}
 
 	Many times, we need to execute a code snippet repeatedly or on satisfaction of a condition. Control structures can control the flow of a sketch. 
@@ -858,6 +882,7 @@
 
 			If you run the above sketch, you will see that the original variable \inlncd{a} has been modified.
 
-
+\section{More on variables}
+	% type casting, arrays, static, const
 
 \end{document}
