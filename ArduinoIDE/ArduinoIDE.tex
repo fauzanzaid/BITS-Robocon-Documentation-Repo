@@ -6,6 +6,10 @@
 \usepackage{graphicx}
 \usepackage{listings}
 % \usepackage{menukeys}
+
+% For tilde
+\usepackage{textcomp}
+
 \usepackage[driverfallback=dvipdfm]{hyperref}
 
 \definecolor{lgray}{rgb}{0.8,0.8,0.8}
@@ -248,6 +252,24 @@
 			ptrC = &initial;
 			\end{lstlisting}
 
+		\subsubsection{Types, typecasting and overflows}
+
+			You know that the expression \inlncd{6/2;} will evaluate to \texttt{3}. But what about \inlncd{6/4;}? No, it won't evaluate to \texttt{1.5}, but to \texttt{1}. You can see that \texttt{1}, \texttt{2},\ldots, \texttt{6} are all \texttt{int}s, but \texttt{1.5} is a \texttt{float}. In these two expressions, both the arguments are of type \texttt{int}. The operation is conducted in the ``highest'' data type of the arguments, so is the type of the result of the evaluation. In this particular case, the fractional part is dropped to convert \texttt{1.5} to an \texttt{int}.
+
+			\begin{lstlisting}
+			1/7;		//0		(int)
+			6/4;		//1		(int)
+			6.0/4;		//1.5	(float)
+			6/4.0;		//1.5	(float)
+			6/(float)4	//1.5	(float)
+			\end{lstlisting}
+
+			In the third and fourth example, one of the operands is a \texttt{float}, which also happens to be the highest type. So, all the operands are first converted to, and the result is given, in \texttt{float} type. In the last example, a \textbf{cast operator} has been used, which converts the \texttt{int} \texttt{4} to a \texttt{float}. Either method can be used.
+
+			\texttt{int} type variables have 2 bytes of memory, and can only hold numbers in the range -32768 -- 32677. If the result of some calculation exceeds this range, \textbf{overflow} occurs. \inlncd{32677+1;} evaluates to \texttt{-1}, as \texttt{32677} and \texttt{1} are \texttt{int}s, so is the result. \inlncd{(long)32677+1;} will evaluate to \texttt{32678}, a long integer. \texttt{long}s have 4 bytes of memory and can store in -2,147,483,648 -- 2,147,483,647.
+
+			Although, \texttt{float}s can store numbers as large and small as $\pm3.4028235\times10^{\pm38}$, they should be used sparingly, as floating point math on the Arduino takes up a lot of memory and time.
+
 
 	\subsection{Some code!}
 
@@ -255,7 +277,7 @@
 
 		\lstinputlisting[language=C++]{./Resources/Codes/BareMinimum/BareMinimum.ino}
 
-		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. The \inlncd{loop} runs repeatedly until the Arduino is powered down.
+		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. Then, the \inlncd{loop} runs repeatedly until the Arduino is powered down.
 
 		\subsubsection{Hello World}
 			Let us now write a program that will print \inlncd{Hello World} on our computer screen. Our computer and the Arduino are two separate computers. We will need to communicate between the two. Before we can do so, we need to set the speed of communication. Add the following line to the setup function.
@@ -351,25 +373,49 @@
 
 \section{Arduino functions}
 
-	Arduino provides a lot of default functions, some of which are explained below.
+	Arduino provides a lot of default functions, very few of the basic ones are explained below.
 
 	\subsection{Serial communication}
 
 		\begin{itemize}
 
-		\item \inlncd{Serial.begin()}: Set the serial communication baud rate. Takes one argument, the baud rate. Typically, you need to set it only once.
+			\item \inlncd{Serial.begin()}: Set the serial communication baud rate. Takes one argument, the baud rate. Typically, you need to set it only once.
 
-		\item \inlncd{Serial.print()}: Prints data to the serial port. Takes a string or variable as an argument. You can also specify the format of a variable as a second, optional argument.
+			\item \inlncd{Serial.print()}: Prints data to the serial port. Takes a string or variable as an argument. You can also specify the format of a variable as a second, optional argument.
 
-		\item \inlncd{Serial.println()}: Does the same as above, in addition, appends carriage return \texttt{\textbackslash{}r} and newline \texttt{\textbackslash{}n} characters to the printed string.
+			\item \inlncd{Serial.println()}: Does the same as above, in addition, appends carriage return \texttt{\textbackslash{}r} and newline \texttt{\textbackslash{}n} characters to the printed string.
 
 		\end{itemize}
 
-	\subsection{Pins}
+	\subsection{Digital I/O}
+
+		These functions work on all pins.
 
 		\begin{itemize}
 
-		\item \inlncd{pinMode}: Set the mode of the pin before writing digital \texttt{HIGH} or \texttt{LOW} to it. Takes two arguments, first is the pin number, the second is the mode. Pin mode can be \texttt{INPUT}, \texttt{OUTPUT} or \texttt{INPUT\_PULLUP}.
+			\item \inlncd{pinMode()}: Set the mode of the pin. Takes two arguments, first is the pin number, the second is the mode. Pin mode can be \texttt{INPUT}, \texttt{OUTPUT} or \texttt{INPUT\_PULLUP}. Setting this is only necessary if you want to use the pin digitally.
+			\begin{enumerate}
+				
+				\item[] \texttt{INPUT}: This is the default state of the pins. The pins have impedance (100M) and hence allow very less current to not disturb the circuit being read, and to avoid accidental shorting. How ever, pins in this state which are not connected to other circuits are susceptible to pick up electrical noise and report apparently random logic levels. This can be avoided by using pullup or pulldown resistors.
+
+				\item[] \texttt{OUTPUT}: Pins are in low impedance and can support current upto 40 mA. Be very careful and use a series resistor, as short circuits can damage the pin transistor or even the processor.
+
+				\item[] \texttt{INPUT\_PULLUP}: Pins are  pulled up by inbuilt 20K resistors to \texttt{HIGH}. There is no corresponding pulldown state for a pin inbuilt in Arduino. Pin 13 cannot used in this state, as it is connected to ground via an LED and a seres resistor, which pull the voltage down to 1.7V. 
+
+			\end{enumerate}
+
+			\item \inlncd{digitalWrite()} Takes two argument, first is the pin number and the second is the logic level, \texttt{HIGH} or \texttt{LOW}. If the pin is not set to \texttt{OUTPUT} mode before writing \texttt{HIGH} to it, the internal pull up will be activated and act as a current limiting resistor.
+			\item \inlncd{digitalRead()} Takes one argument, the pin to read the logic level from. Returns the level (\texttt{HIGH} or \texttt{LOW}). You can read pins both in \texttt{INPUT} or \texttt{OUTPUT} mode. If the pin is not connected to any circuits to pullup/pulldown resistor, it will pick up noise.
+
+		\end{itemize}
+
+	\subsection{Analog I/O}
+
+		\begin{itemize}
+
+			\item \inlncd{analogRead} Takes one argument, the pin number. Returns the voltage at the pin in the form an integer between 0 and 1023. This range can be mapped to 0 to 5V.\footnote{or 3.3V. You can set your own by using analogReference(). Google it.} to yield the actual voltage. Again, the pin will pick up noise if not properly connected. This function works only on analog pins (\texttt{A0\ldots}).
+
+			\item \inlncd{analogWrite} Takes two arguments, the pin number and voltage mapped to 0 -- 255 corresponding to 0 -- 5V. This actually generates a PWM signal with a duty cycle to simulate the needed voltage. This function works on analog (\texttt{A0\ldots}) and PWM (\texttt{\raisebox{0.5ex}{\texttildelow}}) pins.
 
 		\end{itemize}
 
@@ -379,7 +425,7 @@
 
 	\subsection{if\ldots else}
 
-		The \inlncd{if \ldots else} structure is used to check a condition and execute corresponding statements.
+		The \inlncd{if\ldots else} structure is used to check a condition and execute corresponding statements.
 
 		\subsubsection{Simple if}
 
@@ -388,7 +434,7 @@
 				// do something
 			\end{lstlisting}
 
-			If the condition expression inside the parenthesis is true, the following statement or block is executed. Multiple statements enclosed by braces is a block.
+			If the condition expression inside the parenthesis is true, the following statement or block is executed. Multiple statements enclosed within braces is a block.
 
 			\begin{lstlisting}
 			if ( /*condition*/ )
