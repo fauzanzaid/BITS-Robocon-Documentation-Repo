@@ -135,143 +135,141 @@
 
 		If you are getting errors, reset the Arduino board and reconnect it to the computer.
 
-\section{Arduino sketch basics}
+\section{Variables and operations}
+
+	\subsection{Variables}
+
+		You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, characters, booleans, etc. Before you can use a variable, you have to create it by writing a definition statement. All statements end with a \inlncd{;}.
+
+		\begin{lstlisting}[caption={Definition}, label=definition]
+		int apples;
+		\end{lstlisting}
+
+		The above statement creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that static and global variables are by default initialized to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
+
+		\begin{lstlisting}[caption={Assignment}, label=assignment]
+		apples = 7;
+		\end{lstlisting}
+
+		You can define and assign value to a variable in a single statement.
+
+		\begin{lstlisting}[caption={Assignment}, label=assignment]
+		int apples = 7;
+		\end{lstlisting}
+
+		You can define different types of variables.
+
+		\begin{lstlisting}
+		int apples = 5;
+		float applejuice = 4.5;
+		char initial = 'A';
+		bool isfruit = true;
+		\end{lstlisting}
+
+	\subsection{Expressions}
+
+		You can do mathematical operations in the sketch.
+
+		\begin{lstlisting}[caption={Expressions}, label=expressions]
+		1+2;			//Evaluates to 3
+		5-9;			//Evaluates to -4
+		apples*5;		//Evaluates to 28, since apples = 7
+		24/4;			//Evaluates to 6
+		sizeof(int);	//Evaluates to 2
+		\end{lstlisting}
+
+		\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operators need one or more arguments or operands.
+
+		Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
+
+		\begin{lstlisting}
+		1%2;			//Evaluates to 0
+		2%2;			//Evaluates to 1
+		3%2;			//Evaluates to 0
+		13%apples;		//Evaluates to 6
+		\end{lstlisting}
+
+		What will this expression evaluate to?
+
+		\begin{lstlisting}
+		1+5*3%4;
+		\end{lstlisting}
+
+		While all operators have a precedence level, it is not easy to remember the order. We can instead use brackets to control the order of evaluation. The below expression is much easier to understand.
+
+		\begin{lstlisting}
+		1+((5*3)%4);
+		\end{lstlisting}
+
+		There are also boolean operators, AND \inlncd{\&\&}, OR \inlncd{||} and NOT \inlncd{!}.
+
+		\begin{lstlisting}
+		1&&0;			//Evaluates to 0
+		true||0;		//Evaluates to 1
+		!3;				//Evaluates to 0
+		!false;			//Evaluates to 1
+		apples||false;	//Evaluates to 1
+		\end{lstlisting}
+
+		In boolean logic, zero is equivalent to \inlncd{false}, and any non zero value is equivalent to \inlncd{true}.
+
+		You can also compare using \inlncd{==}, \inlncd{!=}, \inlncd{>}, \inlncd{>=}, \inlncd{<} and \inlncd{<=}.
+
+		\begin{lstlisting}
+		5 == 5;				//Evaluates to 1;
+		apples != (8-1);	//Evaluates to 0;
+		5 <= -5;			//Evaluates to 0;
+		\end{lstlisting}
+
+
+		As you may have guessed, variables can be assigned as well used as arguments in, an expression.
+
+		\begin{lstlisting}
+		float applejuice = apples * 0.9;	//Creates applejuice and sets it to 4.5
+		\end{lstlisting}
+
+	\subsection{Memory}
+
+		% Needs Expansion!
+
+		When you define a variable, a chunk of memory is reserved and a \textbf{pointer} to the memory location is returned to the variable. The pointer for \inlncd{some\_var} is given by \inlncd{\&some\_var}. The value stored at the memory location pointed to by \inlncd{some\_ptr} is given by \inlncd{*some\_ptr}.
+
+		You can also create a variable that can store a pointer.
+
+		\begin{lstlisting}
+		int* ptrA;		//ptrA can store a pointer to a memory location that stores an integer
+		char* ptrC;		//ptrC ... character
+		\end{lstlisting}
+
+		Usually, the assignment is not done directly, but by usng the \inlncd{\&} on some other variable.
+
+		\begin{lstlisting}
+		ptrA = &apples;
+		ptrC = &initial;
+		\end{lstlisting}
+
+	\subsection{Types, typecasting and overflows}
+
+		You know that the expression \inlncd{6/2;} will evaluate to \texttt{3}. But what about \inlncd{6/4;}? No, it won't evaluate to \texttt{1.5}, but to \texttt{1}. You can see that \texttt{1}, \texttt{2},\ldots, \texttt{6} are all \texttt{int}s, but \texttt{1.5} is a \texttt{float}. In these two expressions, both the arguments are of type \texttt{int}. The operation is conducted in the ``highest'' data type of the arguments, so is the type of the result of the evaluation. In this particular case, the fractional part is dropped to convert \texttt{1.5} to an \texttt{int}.
+
+		\begin{lstlisting}
+		1/7;		//0		(int)
+		6/4;		//1		(int)
+		6.0/4;		//1.5	(float)
+		6/4.0;		//1.5	(float)
+		6/(float)4	//1.5	(float)
+		\end{lstlisting}
+
+		In the third and fourth example, one of the operands is a \texttt{float}, which also happens to be the highest type. So, all the operands are first converted to, and the result is given, in \texttt{float} type. In the last example, a \textbf{cast operator} has been used, which converts the \texttt{int} \texttt{4} to a \texttt{float}. Either method can be used.
+
+		\texttt{int} type variables have 2 bytes of memory, and can only hold numbers in the range -32768 -- 32677. If the result of some calculation exceeds this range, \textbf{overflow} occurs. \inlncd{32677+1;} evaluates to \texttt{-1}, as \texttt{32677} and \texttt{1} are \texttt{int}s, so is the result. \inlncd{(long)32677+1;} will evaluate to \texttt{32678}, a long integer. \texttt{long}s have 4 bytes of memory and can store in -2,147,483,648 -- 2,147,483,647.
+
+		Although, \texttt{float}s can store numbers as large and small as $\pm3.4028235\times10^{\pm38}$, they should be used sparingly, as floating point math on the Arduino takes up a lot of memory and time.
+
+
+\section{Sketches}
 
 	Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}. Arduino sketches have \inlncd{.ino} extension. All sketches have \inlncd{abc/abc.ino} as the directory structure.
-
-	\subsection{Introduction to variables}
-	
-		\subsubsection{Variables}
-
-			You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, characters, booleans, etc. Before you can use a variable, you have to create it by writing a definition statement.
-
-			\begin{lstlisting}[caption={Definition}, label=definition]
-			int apples;
-			\end{lstlisting}
-
-			The above statement creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that static and global variables are by default initialized to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
-
-			\begin{lstlisting}[caption={Assignment}, label=assignment]
-			apples = 7;
-			\end{lstlisting}
-
-			You can define and assign value to a variable in a single statement.
-
-			\begin{lstlisting}[caption={Assignment}, label=assignment]
-			int apples = 7;
-			\end{lstlisting}
-
-			You can define different types of variables.
-
-			\begin{lstlisting}
-			int apples = 5;
-			float applejuice = 4.5;
-			char initial = 'A';
-			bool isfruit = true;
-			\end{lstlisting}
-
-		\subsubsection{Expressions}
-
-			You can do mathematical operations in the sketch.
-
-			\begin{lstlisting}[caption={Expressions}, label=expressions]
-			1+2;			//Evaluates to 3
-			5-9;			//Evaluates to -4
-			apples*5;		//Evaluates to 28, since apples = 7
-			24/4;			//Evaluates to 6
-			sizeof(int);	//Evaluates to 2
-			\end{lstlisting}
-
-			\inlncd{+}, \inlncd{-}, \inlncd{*}, \inlncd{/} and \inlncd{sizeof} are examples of operators. All operators need one or more ardguments.
-
-			Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
-
-			\begin{lstlisting}
-			1%2;			//Evaluates to 0
-			2%2;			//Evaluates to 1
-			3%2;			//Evaluates to 0
-			13%apples;		//Evaluates to 6
-			\end{lstlisting}
-
-			What will this expression evaluate to?
-
-			\begin{lstlisting}
-			1+5*3%4;
-			\end{lstlisting}
-
-			While all operators have a precedence level, it is not easy to remember the order. We can instead use brackets to control the order of evaluation. The below expression is much easier to understand.
-
-			\begin{lstlisting}
-			% 1+((5*3)%4);
-			\end{lstlisting}
-
-			There are also boolean operators, AND \inlncd{\&\&}, OR \inlncd{||} and NOT \inlncd{!}.
-
-			\begin{lstlisting}
-			1&&0;			//Evaluates to 0
-			true||0;		//Evaluates to 1
-			!3;				//Evaluates to 0
-			!false;			//Evaluates to 1
-			apples||false;	//Evaluates to 1
-			\end{lstlisting}
-
-			In boolean logic, zero is equivalent to \inlncd{false}, and any non zero value is equivalent to \inlncd{true}.
-
-			You can also compare using \inlncd{==}, \inlncd{!=}, \inlncd{>}, \inlncd{>=}, \inlncd{<} and \inlncd{<=}.
-
-			\begin{lstlisting}
-			5 == 5;				//Evaluates to 1;
-			apples != (8-1);	//Evaluates to 0;
-			5 <= -5;			//Evaluates to 0;
-			\end{lstlisting}
-
-
-			As you may have guessed, variables can be assigned as well used as arguments in, an expression.
-
-			\begin{lstlisting}
-			float applejuice = apples * 0.9;	//Creates applejuice and sets it to 4.5
-			\end{lstlisting}
-
-		\subsubsection{Memory}
-
-			% Needs Expansion!
-
-			When you define a variable, a chunk of memory is reserved and a \textbf{pointer} to the memory location is returned to the variable. The pointer for \inlncd{some\_var} is given by \inlncd{\&some\_var}. The value stored at the memory location pointed to by \inlncd{some\_ptr} is given by \inlncd{*some\_ptr}.
-
-			You can also create a variable that can store a pointer.
-
-			\begin{lstlisting}
-			int* ptrA;		//ptrA can store a pointer to a memory location that stores an integer
-			char* ptrC;		//ptrC ... character
-			\end{lstlisting}
-
-			Usually, the assignment is not done directly, but by usng the \inlncd{\&} on some other variable.
-
-			\begin{lstlisting}
-			ptrA = &apples;
-			ptrC = &initial;
-			\end{lstlisting}
-
-		\subsubsection{Types, typecasting and overflows}
-
-			You know that the expression \inlncd{6/2;} will evaluate to \texttt{3}. But what about \inlncd{6/4;}? No, it won't evaluate to \texttt{1.5}, but to \texttt{1}. You can see that \texttt{1}, \texttt{2},\ldots, \texttt{6} are all \texttt{int}s, but \texttt{1.5} is a \texttt{float}. In these two expressions, both the arguments are of type \texttt{int}. The operation is conducted in the ``highest'' data type of the arguments, so is the type of the result of the evaluation. In this particular case, the fractional part is dropped to convert \texttt{1.5} to an \texttt{int}.
-
-			\begin{lstlisting}
-			1/7;		//0		(int)
-			6/4;		//1		(int)
-			6.0/4;		//1.5	(float)
-			6/4.0;		//1.5	(float)
-			6/(float)4	//1.5	(float)
-			\end{lstlisting}
-
-			In the third and fourth example, one of the operands is a \texttt{float}, which also happens to be the highest type. So, all the operands are first converted to, and the result is given, in \texttt{float} type. In the last example, a \textbf{cast operator} has been used, which converts the \texttt{int} \texttt{4} to a \texttt{float}. Either method can be used.
-
-			\texttt{int} type variables have 2 bytes of memory, and can only hold numbers in the range -32768 -- 32677. If the result of some calculation exceeds this range, \textbf{overflow} occurs. \inlncd{32677+1;} evaluates to \texttt{-1}, as \texttt{32677} and \texttt{1} are \texttt{int}s, so is the result. \inlncd{(long)32677+1;} will evaluate to \texttt{32678}, a long integer. \texttt{long}s have 4 bytes of memory and can store in -2,147,483,648 -- 2,147,483,647.
-
-			Although, \texttt{float}s can store numbers as large and small as $\pm3.4028235\times10^{\pm38}$, they should be used sparingly, as floating point math on the Arduino takes up a lot of memory and time.
-
-
-	\subsection{Some code!}
 
 		On opening the IDE, you will see the below snippet in the code window:
 
@@ -279,7 +277,7 @@
 
 		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. Then, the \inlncd{loop} runs repeatedly until the Arduino is powered down.
 
-		\subsubsection{Hello World}
+		\subsection{Hello World}
 			Let us now write a program that will print \inlncd{Hello World} on our computer screen. Our computer and the Arduino are two separate computers. We will need to communicate between the two. Before we can do so, we need to set the speed of communication. Add the following line to the setup function.
 
 			\begin{lstlisting}[firstnumber = 3]
@@ -308,7 +306,7 @@
 			Hello World
 			\end{lstlisting}
 
-		\subsubsection{Blink an LED}
+		\subsection{Blink an LED}
 
 			Let us blink the onboard LED, which is attached to pin 13. Our algorithm will be:
 
@@ -344,7 +342,7 @@
 
 			Upload the code and check the LED now.
 
-		\subsubsection{A timer}
+		\section{A timer}
 
 			Let us create a timer that will count the number of seconds for us. Our algorithm will be:
 
@@ -367,7 +365,7 @@
 
 			You can see on line 9, how we have passed \inlncd{sec\_elapsed} as an argument to the \inlncd{Serial.print} function. Also we have used \inlncd{Serial.print} on line 9, and \inlncd{Serial.println} on line 10. \inlncd{Serial.println} also creates a new line and returns the cursor to the initial position, the same effect the enter key perfoorms in a text editor.
 
-			On line 12 we have used \inlncd{+=} operator to increment \inlncd{sec\_elapsed} by 1. \inlncd{some\_var += other\_var} is a shorthand for \inlncd{some\_var = some\_var + other\_var}.
+			On line 12 we have used \inlncd{+=} operator to increment \inlncd{sec\_elapsed} by 1. \inlncd{some\_var += other\_var} is a shorthand for \inlncd{some\_var = some\_var + other\_var}. If you need to increment a variable by \texttt{1}, you can simply write \inlncd{some\_var++;}.
 
 			Another subtle point is the leading space in the string on line 9.
 
@@ -642,7 +640,7 @@
 
 	\subsection{Call}
 
-		You can call a function anywhere in your sketch by it's name. You must supply an equal number of arguments of matching variable type.
+		To use a function, you can call it anywhere in your sketch by it's name. You must supply an equal number of arguments of matching variable type as in the definition.
 
 		\begin{lstlisting}
 		void setup ()
@@ -927,8 +925,5 @@
 			\end{lstlisting}
 
 			If you run the above sketch, you will see that the original variable \inlncd{a} has been modified.
-
-\section{More on variables}
-	% type casting, arrays, static, const
 
 \end{document}
