@@ -5,6 +5,7 @@
 \usepackage{fancyvrb}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage[a4paper]{geometry}
 % \usepackage{menukeys}
 
 % For tilde
@@ -44,9 +45,6 @@
 
 \newcommand{\inlncd}[1]{\colorbox{lgray}{\texttt{#1}}}
 
-
-
-
 \title{A short introduction to Arduino Programming}
 \author{Fauzan}
 \maketitle
@@ -54,13 +52,13 @@
 \section{What's the program?}
 	Armed with an LED, you want to banish darkness at the push of a button\@. Because just using a battery and wires and sticky black tape is so fifth grade stuff, you are going to use the mighty Arduino as your savior. Congratulations, you have defined your \textbf{Problem}.
 
-	\begin{lstlisting}
+	\begin{lstlisting}[gobble=4]
 	I want to banish darkness at the push of a button with the Arduino as my saviour.
 	\end{lstlisting}
 
 	You know what you want to do, but how are you going to do it? How is a \textit{dumb someone else} (lets call him Dumbo) going to do it? Dumbo may have no moral obligations of banishing darkness and enlightening your path. Actually, Dumbo does not even know why darkness is evil or enlightenment is virtuous. You have to give line by line instructions to Dumbo, explaining what to do. Tricky, isn't it? This instruction set is the \textbf{Algorithm}. The algorithm to the above problem is given below.
 
-	\begin{lstlisting}
+	\begin{lstlisting}[gobble=4]
 	Hey Dumbo!
 
 	Check the button.
@@ -73,7 +71,7 @@
 
 	But our Dumbo, the Arduino does not know about LEDs and buttons. It has I/O pins and knows how to read and set voltages. Let us try to write our algorithm in terms of pins and voltages.
 
-	\begin{lstlisting}
+	\begin{lstlisting}[gobble=4]
 	#Button terminal A is at 5V pin
 	#Button terminal B is at pin 2
 	#LED cathode is at pin 13
@@ -118,7 +116,7 @@
 
 			Download the \inlncd{arduino-1.X.X-linuxXX.tar.xz} archive. Open the terminal and run the below commands one by one\@. Navigate to the \texttt{Downloads} directory, extract the archive, move it to \texttt{opt} directory and execute script to create desktop shortcut, menu item and file associations.
 
-			\begin{lstlisting}[language=bash]
+			\begin{lstlisting}[gobble=12, language=bash]
 			cd Downloads
 			tar -xvf arduino-1.X.X-linuxXX.tar.xz
 			sudo mv arduino-1.X.X /opt
@@ -141,25 +139,25 @@
 
 		You can store data in \textbf{variables}. There are different types of variables: integers, decimal numbers, strings, characters, booleans, etc. Before you can use a variable, you have to create it by writing a definition statement. All statements end with a \inlncd{;}.
 
-		\begin{lstlisting}[caption={Definition}, label=definition]
+		\begin{lstlisting}[gobble=8]
 		int apples;
 		\end{lstlisting}
 
 		The above statement creates a variable called \inlncd{apples} of type \inlncd{integer}. All \inlncd{integer}s are granted \inlncd{2 bytes} of memory in Arduino. Presently, the memory contains a \inlncd{garbage value}\footnote{You will see later that static and global variables are by default initialized to zero.}. You can change the value stored in \inlncd{apples} with the help of an assignment statement.
 
-		\begin{lstlisting}[caption={Assignment}, label=assignment]
+		\begin{lstlisting}[gobble=8]
 		apples = 7;
 		\end{lstlisting}
 
 		You can define and assign value to a variable in a single statement.
 
-		\begin{lstlisting}[caption={Assignment}, label=assignment]
+		\begin{lstlisting}[gobble=8]
 		int apples = 7;
 		\end{lstlisting}
 
 		You can define different types of variables.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		int apples = 5;
 		float applejuice = 4.5;
 		char initial = 'A';
@@ -170,7 +168,7 @@
 
 		You can do mathematical operations in the sketch.
 
-		\begin{lstlisting}[caption={Expressions}, label=expressions]
+		\begin{lstlisting}[gobble=8]
 		1+2;			//Evaluates to 3
 		5-9;			//Evaluates to -4
 		apples*5;		//Evaluates to 28, since apples = 7
@@ -182,7 +180,7 @@
 
 		Another operator is \inlncd{\%}, the \inlncd{modulo} operator.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		1%2;			//Evaluates to 0
 		2%2;			//Evaluates to 1
 		3%2;			//Evaluates to 0
@@ -191,19 +189,19 @@
 
 		What will this expression evaluate to?
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		1+5*3%4;
 		\end{lstlisting}
 
 		While all operators have a precedence level, it is not easy to remember the order. We can instead use brackets to control the order of evaluation. The below expression is much easier to understand.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		1+((5*3)%4);
 		\end{lstlisting}
 
 		There are also boolean operators, AND \inlncd{\&\&}, OR \inlncd{||} and NOT \inlncd{!}.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		1&&0;			//Evaluates to 0
 		true||0;		//Evaluates to 1
 		!3;				//Evaluates to 0
@@ -215,7 +213,7 @@
 
 		You can also compare using \inlncd{==}, \inlncd{!=}, \inlncd{>}, \inlncd{>=}, \inlncd{<} and \inlncd{<=}.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		5 == 5;				//Evaluates to 1;
 		apples != (8-1);	//Evaluates to 0;
 		5 <= -5;			//Evaluates to 0;
@@ -224,7 +222,7 @@
 
 		As you may have guessed, variables can be assigned as well used as arguments in, an expression.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		float applejuice = apples * 0.9;	//Creates applejuice and sets it to 4.5
 		\end{lstlisting}
 
@@ -236,23 +234,23 @@
 
 		You can also create a variable that can store a pointer.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		int* ptrA;		//ptrA can store a pointer to a memory location that stores an integer
 		char* ptrC;		//ptrC ... character
 		\end{lstlisting}
 
 		Usually, the assignment is not done directly, but by usng the \inlncd{\&} on some other variable.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		ptrA = &apples;
 		ptrC = &initial;
 		\end{lstlisting}
 
 	\subsection{Types, typecasting and overflows}
 
-		You know that the expression \inlncd{6/2;} will evaluate to \texttt{3}. But what about \inlncd{6/4;}? No, it won't evaluate to \texttt{1.5}, but to \texttt{1}. You can see that \texttt{1}, \texttt{2},\ldots, \texttt{6} are all \texttt{int}s, but \texttt{1.5} is a \texttt{float}. In these two expressions, both the arguments are of type \texttt{int}. The operation is conducted in the ``highest'' data type of the arguments, so is the type of the result of the evaluation. In this particular case, the fractional part is dropped to convert \texttt{1.5} to an \texttt{int}.
+		You know that the expression \inlncd{6/2;} will evaluate to \texttt{3}. But what about \inlncd{6/4;}? No, it won't evaluate to \texttt{1.5}, but to \texttt{1}. You can see that \texttt{1}, \texttt{2},\ldots, \texttt{6} are all \texttt{int}s, but \texttt{1.5} is a \texttt{float}. In these two expressions, both the operands are of type \texttt{int}. The operation is conducted in the ``highest'' data type of the operands, so is the type of the result of the evaluation. In this particular case, the fractional part is dropped to convert \texttt{1.5} to an \texttt{int}.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		1/7;		//0		(int)
 		6/4;		//1		(int)
 		6.0/4;		//1.5	(float)
@@ -271,107 +269,107 @@
 
 	Code that you write in the IDE is a sketch. It is not the same as C++ code, but very similar. Any sketch is made up of statements. All statements must end with a \inlncd{;}. Arduino sketches have \inlncd{.ino} extension. All sketches have \inlncd{abc/abc.ino} as the directory structure.
 
-		On opening the IDE, you will see the below snippet in the code window:
+	On opening the IDE, you will see the below snippet in the code window:
 
-		\lstinputlisting[language=C++]{./Resources/Codes/BareMinimum/BareMinimum.ino}
+	\lstinputlisting[language=C++]{./Resources/Codes/BareMinimum/BareMinimum.ino}
 
-		These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. Then, the \inlncd{loop} runs repeatedly until the Arduino is powered down.
+	These are two \textbf{functions}. The \inlncd{setup} function is run once when the Arduino is powered up or reset. Then, the \inlncd{loop} runs repeatedly until the Arduino is powered down.
 
-		\subsection{Hello World}
-			Let us now write a program that will print \inlncd{Hello World} on our computer screen. Our computer and the Arduino are two separate computers. We will need to communicate between the two. Before we can do so, we need to set the speed of communication. Add the following line to the setup function.
+	\subsection{Hello World}
+		Let us now write a program that will print \inlncd{Hello World} on our computer screen. Our computer and the Arduino are two separate computers. We will need to communicate between the two. Before we can do so, we need to set the speed of communication. Add the following line to the setup function.
 
-			\begin{lstlisting}[firstnumber = 3]
-			Serial.begin(9600);
-			\end{lstlisting}
+		\begin{lstlisting}[gobble=8, firstnumber = 3]
+		Serial.begin(9600);
+		\end{lstlisting}
 
-			\inlncd{Serial.begin()} is a function which configures the Arduino to send data through the serial port at a baud rate which is given as an argument. This function takes one argument of integer type. We have provided \inlncd{9600} as an argument. Thus, the Arduino will send data at a rate of 9600 baud.
+		\inlncd{Serial.begin()} is a function which configures the Arduino to send data through the serial port at a baud rate which is given as an argument. This function takes one argument of integer type. We have provided \inlncd{9600} as an argument. Thus, the Arduino will send data at a rate of 9600 baud.
 
-			Now we can send data which will printed on our screen. Add the following line below \inlncd{Serial.begin()}, inside the setup function.
+		Now we can send data which will printed on our screen. Add the following line below \inlncd{Serial.begin()}, inside the setup function.
 
-			\begin{lstlisting}[firstnumber = 4]
-			Serial.println("Hello World");
-			\end{lstlisting}
+		\begin{lstlisting}[gobble=8, firstnumber = 4]
+		Serial.println("Hello World");
+		\end{lstlisting}
 
-			\inlncd{Serial.println()} is a function that takes a value and sends it through the serial port. In this case, we want to send a string. A string is enclosed within two \inlncd{"}. \inlncd{Hello World}, and not \inlncd{"Hello World"}, will be sent through the serial port.
+		\inlncd{Serial.println()} is a function that takes a value and sends it through the serial port. In this case, we want to send a string. A string is enclosed within two \inlncd{"}. \inlncd{Hello World}, and not \inlncd{"Hello World"}, will be sent through the serial port.
 
-			Our code looks like this:
+		Our code looks like this:
 
-			\lstinputlisting[language=C++]{./Resources/Codes/Hello1/Hello1.ino}
+		\lstinputlisting[language=C++]{./Resources/Codes/Hello1/Hello1.ino}
 
-			Now we are ready to upload! Click the round upload button below the menubar. This will compile the code and upload it to the Arduino.
+		Now we are ready to upload! Click the round upload button below the menubar. This will compile the code and upload it to the Arduino.
 
-			Before we can see anything on the screen, we need to set up a serial monitor. Thankfully, it is included in the IDE. Click on the magnifying glass icon on the right end below the menubar. Select a baud rate equal to the one at which Arduino is sending us data, ei., 9600. You will see this on the screen:
+		Before we can see anything on the screen, we need to set up a serial monitor. Thankfully, it is included in the IDE. Click on the magnifying glass icon on the right end below the menubar. Select a baud rate equal to the one at which Arduino is sending us data, ei., 9600. You will see this on the screen:
 
-			\begin{lstlisting}
-			Hello World
-			\end{lstlisting}
+		\begin{lstlisting}[gobble=8]
+		Hello World
+		\end{lstlisting}
 
-		\subsection{Blink an LED}
+	\subsection{Blink an LED}
 
-			Let us blink the onboard LED, which is attached to pin 13. Our algorithm will be:
+		Let us blink the onboard LED, which is attached to pin 13. Our algorithm will be:
 
-			\begin{lstlisting}
-			Set pin 13 to Output
+		\begin{lstlisting}[gobble=8]
+		Set pin 13 to Output
 
-			Set pin 13 to HI
-			Set pin 13 to LO
-			Goto line 3
-			\end{lstlisting}
+		Set pin 13 to HI
+		Set pin 13 to LO
+		Goto line 3
+		\end{lstlisting}
 
-			The equivalent sketch will be:
+		The equivalent sketch will be:
 
-			\lstinputlisting[language=C++]{./Resources/Codes/Blink0/Blink0.ino}
+		\lstinputlisting[language=C++]{./Resources/Codes/Blink0/Blink0.ino}
 
-			We have used two new functions in our sketch.
+		We have used two new functions in our sketch.
 
-			\inlncd{pinMode()} is a function that takes two parameters. The first parameter is the pin number, and the second is the mode of the pin. Pin mode can be  \inlncd{INPUT}, \inlncd{OUTPUT} or \inlncd{INPUT\_PULLUP}. We want to use our pin as \inlncd{OUTPUT}.
+		\inlncd{pinMode()} is a function that takes two parameters. The first parameter is the pin number, and the second is the mode of the pin. Pin mode can be  \inlncd{INPUT}, \inlncd{OUTPUT} or \inlncd{INPUT\_PULLUP}. We want to use our pin as \inlncd{OUTPUT}.
 
-			\inlncd{digitalWrite} also takes two parameters, the first is the pin number. The second is the logic level, it can be \inlncd{HIGH} (5V)\footnote{On 3.3V boards, it is 3.3V} or \inlncd{LOW} (0V).
+		\inlncd{digitalWrite} also takes two parameters, the first is the pin number. The second is the logic level, it can be \inlncd{HIGH} (5V)\footnote{On 3.3V boards, it is 3.3V} or \inlncd{LOW} (0V).
 
-			Upload the sketch.
+		Upload the sketch.
 
-			What is happening here? The Arduino is switching on, then off, and on and off again and again as fast as it can, faster than we can comprehend. The speed of blinking is only limited by the processor.
+		What is happening here? The Arduino is switching on, then off, and on and off again and again as fast as it can, faster than we can comprehend. The speed of blinking is only limited by the processor.
 
-			If want to blink the LED every second, there is a function \inlncd{delay()} that can help us. Add this line after you set the pin high, and after you set the pin low.
+		If want to blink the LED every second, there is a function \inlncd{delay()} that can help us. Add this line after you set the pin high, and after you set the pin low.
 
-			\begin{lstlisting}[numbers = none]
-			delay(1000);
-			\end{lstlisting}
+		\begin{lstlisting}[gobble=8, numbers = none]
+		delay(1000);
+		\end{lstlisting}
 
-			\inlncd{delay()} takes one parameter, the number of milliseconds to wait. When the Arduino encounters this statement, it waits for the specified interval. 
+		\inlncd{delay()} takes one parameter, the number of milliseconds to wait. When the Arduino encounters this statement, it waits for the specified interval. 
 
-			Upload the code and check the LED now.
+		Upload the code and check the LED now.
 
-		\section{A timer}
+	\subsection{A timer}
 
-			Let us create a timer that will count the number of seconds for us. Our algorithm will be:
+		Let us create a timer that will count the number of seconds for us. Our algorithm will be:
 
-			\begin{lstlisting}
-			Create a variable named sec_elapsed
+		\begin{lstlisting}[gobble=8]
+		Create a variable named sec_elapsed
 
-			sec_elapsed = 0
-			Set serial communication baud rate
+		sec_elapsed = 0
+		Set serial communication baud rate
 
-			Wait one second
-			sec_elapsed = sec_elapsed + 1
-			Print sec_elapsed
+		Wait one second
+		sec_elapsed = sec_elapsed + 1
+		Print sec_elapsed
 
-			Goto line 6
-			\end{lstlisting}
+		Goto line 6
+		\end{lstlisting}
 
-			The equivalent Arduino sketch will be:
+		The equivalent Arduino sketch will be:
 
-			\lstinputlisting[language=C++, label=sectimer]{./Resources/Codes/SecTimer/SecTimer.ino}
+		\lstinputlisting[language=C++, label=sectimer]{./Resources/Codes/SecTimer/SecTimer.ino}
 
-			You can see on line 9, how we have passed \inlncd{sec\_elapsed} as an argument to the \inlncd{Serial.print} function. Also we have used \inlncd{Serial.print} on line 9, and \inlncd{Serial.println} on line 10. \inlncd{Serial.println} also creates a new line and returns the cursor to the initial position, the same effect the enter key perfoorms in a text editor.
+		You can see on line 9, how we have passed \inlncd{sec\_elapsed} as an argument to the \inlncd{Serial.print} function. Also we have used \inlncd{Serial.print} on line 9, and \inlncd{Serial.println} on line 10. \inlncd{Serial.println} also creates a new line and returns the cursor to the initial position, the same effect the enter key perfoorms in a text editor.
 
-			On line 12 we have used \inlncd{+=} operator to increment \inlncd{sec\_elapsed} by 1. \inlncd{some\_var += other\_var} is a shorthand for \inlncd{some\_var = some\_var + other\_var}. If you need to increment a variable by \texttt{1}, you can simply write \inlncd{some\_var++;}.
+		On line 12 we have used \inlncd{+=} operator to increment \inlncd{sec\_elapsed} by 1. \inlncd{some\_var += other\_var} is a shorthand for \inlncd{some\_var = some\_var + other\_var}. If you need to increment a variable by \texttt{1}, you can simply write \inlncd{some\_var++;}.
 
-			Another subtle point is the leading space in the string on line 9.
+		Another subtle point is the leading space in the string on line 10.
 
 \section{Arduino functions}
 
-	Arduino provides a lot of default functions, very few of the basic ones are explained below.
+	Arduino provides a lot of core functions, very few of the basic ones are explained below.
 
 	\subsection{Serial communication}
 
@@ -396,7 +394,7 @@
 				
 				\item[] \texttt{INPUT}: This is the default state of the pins. The pins have impedance (100M) and hence allow very less current to not disturb the circuit being read, and to avoid accidental shorting. How ever, pins in this state which are not connected to other circuits are susceptible to pick up electrical noise and report apparently random logic levels. This can be avoided by using pullup or pulldown resistors.
 
-				\item[] \texttt{OUTPUT}: Pins are in low impedance and can support current upto 40 mA. Be very careful and use a series resistor, as short circuits can damage the pin transistor or even the processor.
+				\item[] \texttt{OUTPUT}: Pins are in low impedance and can support current upto 40~mA. Be very careful and use a series resistor, as short circuits can damage the pin transistor or even the processor.
 
 				\item[] \texttt{INPUT\_PULLUP}: Pins are  pulled up by inbuilt 20K resistors to \texttt{HIGH}. There is no corresponding pulldown state for a pin inbuilt in Arduino. Pin 13 cannot used in this state, as it is connected to ground via an LED and a seres resistor, which pull the voltage down to 1.7V. 
 
@@ -413,7 +411,7 @@
 
 			\item \inlncd{analogRead} Takes one argument, the pin number. Returns the voltage at the pin in the form an integer between 0 and 1023. This range can be mapped to 0 to 5V.\footnote{or 3.3V. You can set your own by using analogReference(). Google it.} to yield the actual voltage. Again, the pin will pick up noise if not properly connected. This function works only on analog pins (\texttt{A0\ldots}).
 
-			\item \inlncd{analogWrite} Takes two arguments, the pin number and voltage mapped to 0 -- 255 corresponding to 0 -- 5V. This actually generates a PWM signal with a duty cycle to simulate the needed voltage. This function works on analog (\texttt{A0\ldots}) and PWM (\texttt{\raisebox{0.5ex}{\texttildelow}}) pins.
+			\item \inlncd{analogWrite} Takes two arguments, the pin number and voltage mapped to 0--255 corresponding to 0--5V. This actually generates a PWM signal with a duty cycle to simulate the needed voltage. This function works on analog (\texttt{A0\ldots}) and PWM (\texttt{\raisebox{0.5ex}{\texttildelow}}) pins.
 
 		\end{itemize}
 
@@ -427,14 +425,14 @@
 
 		\subsubsection{Simple if}
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( /*condition*/ )
 				// do something
 			\end{lstlisting}
 
 			If the condition expression inside the parenthesis is true, the following statement or block is executed. Multiple statements enclosed within braces is a block.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( /*condition*/ )
 			{
 				// do this
@@ -444,7 +442,7 @@
 
 			In the below snippet, the second statement is always executed. It does not belong to the if structure. Only the first statement belongs to the if structure.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( /*condition*/ )
 				// do thing A
 				// do thing B
@@ -452,7 +450,7 @@
 
 			An example:
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( senVal >= 50 )		//No semicolon here!
 			{
 				digitalWrite( ledPin, HIGH );
@@ -462,7 +460,7 @@
 
 		\subsubsection{Branching}
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( /*condition*/ )
 				// do something
 			else 
@@ -475,7 +473,7 @@
 
 			In the below snippet, the second statement is executed if and only if conditions A is false and B true. Condition C is not checked. The third statement is executed iff conditions A and B both are false, and C is true. The fourth statement is executed iff all three conditions are false.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( /*condition A*/ )
 				// do thing A
 			else if ( /*condition B*/ )
@@ -488,7 +486,7 @@
 
 			An example:
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			if ( senVal >= 50 )
 			{
 				digitalWrite( led1Pin, HIGH );
@@ -510,7 +508,7 @@
 
 		The switch structure is used when you want to execute particular statements if the value of a variable matches one of the values supplied in the structure.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		switch ( some_var )
 		{
 			case val_A:
@@ -536,7 +534,7 @@
 
 			The condition is checked before every iteration. If true, the following statement or block is executed and again condition is checked and so on. If false, the statement/block is skipped and control goes ahead.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			while ( /*condition*/ )
 			{
 				//do something
@@ -547,7 +545,7 @@
 
 			It is same as the above while loop, but the condition is not checked before the first iteration. Thus, the statement/block is guaranteed to execute at least once.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			do
 			{
 				//do something
@@ -559,7 +557,7 @@
 
 		For loops are used to execute a code snippet a number of times.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		for ( /*initialization*/; /*condition*/; /*increment*/)
 		{
 			//do something
@@ -570,7 +568,7 @@
 
 		The below code will print all integers from 1 to 100.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		for ( int i = 0; i<100; i++)	//You can define a variable inside
 		{
 			Serial.println(i+1);
@@ -579,7 +577,7 @@
 
 		The below code prints all powers of 2 upto 5000.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 
 		int i; 		//You can define a variable outside.
 
@@ -602,7 +600,7 @@
 
 		This is how a definition of a function that returns the product of two numbers supplied as arguments or parameters looks like.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		int myProduct (int num1, int num2)
 		{
 			int result;
@@ -614,7 +612,7 @@
 
 		Generalized, a function definition looks like this:
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		[return type] [function name] ([argument 1 type] [argument 1 name], ... )
 		{
 			//do something
@@ -629,7 +627,7 @@
 
 		If a function expects no arguments, leave the parenthesis empty, do not omit them.
 		
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		void myGreeting ()
 		{
 			Serial.println("Hello World");
@@ -642,7 +640,7 @@
 
 		To use a function, you can call it anywhere in your sketch by it's name. You must supply an equal number of arguments of matching variable type as in the definition.
 
-		\begin{lstlisting}
+		\begin{lstlisting}[gobble=8]
 		void setup ()
 		{
 			Serial.begin(9600);
@@ -691,7 +689,7 @@
 
 			All variables defined inside a function body or block are local to the function or block. They can be accessed only inside the function or block. They do not exist outside.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			void setup()
 			{
 				Serial.begin(9600);
@@ -709,7 +707,7 @@
 			}
 			\end{lstlisting}
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			void setup()
 			{
 				int var_a = 4
@@ -732,7 +730,7 @@
 
 			All variables defined outside all function are global. Global variables have global scope, they exists and can be accessed directly or modified anywhere in the sketch.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			int x = 3;
 
 			void setup()
@@ -753,7 +751,7 @@
 
 			An interesting fact is that when a local variable of the same name as global variable is defined, the more local variable takes preference over the global variable in that scope. You can check by printing \inlncd{x} to serial port in the setup and loop functions.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			int x = 3;
 
 			void setup()
@@ -781,7 +779,7 @@
 
 			These are the parameters you define in a function declaration and use them in the function body. They are also treated as local variables and have local scope, and take preference over global variables.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			int a = 7, b = 12;
 
 			void setup ()
@@ -815,7 +813,7 @@
 
 			When we pass a variable as an argument to a function, a local copy of the variable is created. What ever the function does with this local copy has no effect on our variable. This is known as `passing by value'.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			void myFunction(int num)
 			{
 				num++;
@@ -823,19 +821,17 @@
 			}
 			\end{lstlisting}
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			int apples = 7;
 
 			Serial.println(apples);		//Prints 7
 			myFunction(apples);			//Prints 8
-			Serial.println(apples);		//Prints 7, as the increment was
-										//done on the local copy of apples,
-										//not apples itself
+			Serial.println(apples);		//Prints 7, as the increment was done on the local copy of apples, not apples itself
 			\end{lstlisting}
 
 			If you want a function to update a variable, you cannot pass the variable as a parameter. You can either assign the return value of a function to the variable\ldots
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			void setup ()
 			{
 				int num = 6;
@@ -856,7 +852,7 @@
 
 			\ldots{}or declare the variable as global so that it can be seen and modified inside the function.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			int num = 6;
 			
 			void setup ()
@@ -881,7 +877,7 @@
 
 			When passing a variable by value to a function, a local copy of the variable is made for the function. This means that our original variable and the copied variable do not share the same memory space. They are alloted different chunks of memory. Thus any changes you make in the copied variable are made at the second memory location, and the original memory location remains intact.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			void setup ()
 			{
 				Serial.begin(9600);
@@ -903,7 +899,7 @@
 
 			Thus, you can pass a pointer to a function and access the value pointed to by the pointer.
 
-			\begin{lstlisting}
+			\begin{lstlisting}[gobble=12]
 			void setup ()
 			{
 				Serial.begin(9600);
