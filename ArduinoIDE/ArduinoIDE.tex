@@ -264,6 +264,27 @@
 
 		Although, \texttt{float}s can store numbers as large and small as $\pm3.4028235\times10^{\pm38}$, they should be used sparingly, as floating point math on the Arduino takes up a lot of memory and time.
 
+	\subsection{Arrays}
+
+		Arrays are a group of variables where each variable has an index number. Arrays are useful for storing similar data. You can declare an array in the below ways:
+
+		\begin{lstlisting}[gobble=8]
+		int myInts[5];	//Uninitialised
+		int senVal[3] = {6, 3, 9};	//Initialised
+		int myChar[] = {'a', 'b', 'c', 'd'};	//Automatically creates array of size of number of elements
+		char myFruit[6] = "apple";	//Creates a C string
+		\end{lstlisting}
+
+		If you want to use a character array as a string, the element after the last useful character should be \texttt{\textbackslash0}. All strings have a \texttt{\textbackslash0} at the end, hence, \texttt{apples} string requires at least a 5+1, 6 sized character array.
+
+		Array indices start from zero. Thus, the last element of an array of size \texttt{n} has index \texttt{n-1}. You can access an array element by its index:
+
+		\begin{lstlisting}[gobble=8]
+		myInt[3] = 43;	//Assigns 43 to fourth element
+		senVal[2];		//Evaluates to 9, not 3
+		myChar[0];		//Evaluates to 'a'
+		myFruit[5];		//Evaluates to '\0'
+		\end{lstlisting}
 
 \section{Sketches}
 
