@@ -264,7 +264,7 @@
 
 		In the third and fourth example, one of the operands is a \texttt{float}, which also happens to be the highest type. So, all the operands are first converted to, and the result is given, in \texttt{float} type. In the last example, a \textbf{cast operator} has been used, which converts the \texttt{int} \texttt{4} to a \texttt{float}. Either method can be used.
 
-		\texttt{int} type variables have 2 bytes of memory, and can only hold numbers in the range -32768 -- 32677. If the result of some calculation exceeds this range, \textbf{overflow} occurs. \inlncd{32677+1;} evaluates to \texttt{-1}, as \texttt{32677} and \texttt{1} are \texttt{int}s, so is the result. \inlncd{(long)32677+1;} will evaluate to \texttt{32678}, a long integer. \texttt{long}s have 4 bytes of memory and can store in -2,147,483,648 -- 2,147,483,647.
+		\texttt{int} type variables have 2 bytes of memory, and can only hold numbers in the range -32768 -- 32677. If the result of some calculation exceeds this range, \textbf{overflow} occurs. \inlncd{32677+1;} evaluates to \texttt{-32678}, it rolls over, as \texttt{32677} and \texttt{1} are \texttt{int}s, so is the result. \inlncd{(long)32677+1;} will evaluate to \texttt{32678}, a long integer. \texttt{long}s have 4 bytes of memory and can store in the range -2,147,483,648--2,147,483,647.
 
 		Although, \texttt{float}s can store numbers as large and small as $\pm3.4028235\times10^{\pm38}$, they should be used sparingly, as floating point math on the Arduino takes up a lot of memory and time.
 
@@ -417,7 +417,7 @@
 			\item \inlncd{pinMode()}: Set the mode of the pin. Takes two arguments, first is the pin number, the second is the mode. Pin mode can be \texttt{INPUT}, \texttt{OUTPUT} or \texttt{INPUT\_PULLUP}. Setting this is only necessary if you want to use the pin digitally.
 			\begin{enumerate}
 				
-				\item[] \texttt{INPUT}: This is the default state of the pins. The pins have impedance (100M) and hence allow very less current to not disturb the circuit being read, and to avoid accidental shorting. How ever, pins in this state which are not connected to other circuits are susceptible to pick up electrical noise and report apparently random logic levels. This can be avoided by using pullup or pulldown resistors.
+				\item[] \texttt{INPUT}: This is the default state of the pins. The pins have high impedance (100M) and hence allow very less current to not disturb the circuit being read, and to avoid accidental shorting. However, pins in this state which are not connected to other circuits are susceptible to pick up electrical noise and report apparently random logic levels. This can be avoided by using pullup or pulldown resistors.
 
 				\item[] \texttt{OUTPUT}: Pins are in low impedance and can support current upto 40~mA. Be very careful and use a series resistor, as short circuits can damage the pin transistor or even the processor.
 
