@@ -11,7 +11,7 @@
 % For tilde
 \usepackage{textcomp}
 
-\usepackage[driverfallback=dvipdfm]{hyperref}
+\usepackage[driverfallback=dvipdfm, pdfborder={1 1 0.75}]{hyperref}
 
 \definecolor{lgray}{rgb}{0.8,0.8,0.8}
 \definecolor{dgrin}{rgb}{0,0.6,0}
@@ -41,13 +41,17 @@
 \renewcommand\lstlistlistingname{Snippet}
 \def\lstlistingautorefname{Snp.}
 
+\title{A short introduction to Arduino Programming}
+\author{Fauzan}
+
 \begin{document}
 
 \newcommand{\inlncd}[1]{\colorbox{lgray}{\texttt{#1}}}
-
-\title{A short introduction to Arduino Programming}
-\author{Fauzan}
 \maketitle
+
+\tableofcontents
+
+\newpage
 
 \section{What's the program?}
 	Armed with an LED, you want to banish darkness at the push of a button\@. Because just using a battery and wires and sticky black tape is so fifth grade stuff, you are going to use the mighty Arduino as your savior. Congratulations, you have defined your \textbf{Problem}.
@@ -129,7 +133,7 @@
 
 	\subsection{Test}
 
-		Open the IDE\@. Connect the Arduino to the computer using a USB A to USB B cable. Under File, Examples, 01.Basics, select Blink. Under Tools, Board, select the proper board. Under Tools, Port, select a port. Below the menu bar, click on the second circle with an arrow. Check the Arduino board. An LED should be blinking.
+		Open the IDE\@. Connect the Arduino to the computer using a USB A to USB B cable. Under File, Examples, 01.Basics, select Blink. Under Tools, Board, select the proper board. Under Tools, Port, select a port. Below the menu bar, click on upload button (the second circle with an arrow). Check the Arduino board. An LED should be blinking.
 
 		If you are getting errors, reset the Arduino board and reconnect it to the computer.
 
@@ -436,6 +440,10 @@
 
 		\end{itemize}
 
+	\subsection{Libraries}
+
+		Apart from the core functions, you can also import libraries. Libraries contain additional functions for specialized tasks, like operating a servo, driving an LCD display, reading sensors, etc. You can import a library by going to Sketch, Include Library. This will add \inlncd{\#include<libname.h>} to your sketch. You can now use the library functions.
+
 \section{Control structures}
 
 	Many times, we need to execute a code snippet repeatedly or on satisfaction of a condition. Control structures can control the flow of a sketch. 
@@ -600,9 +608,9 @@
 
 		\begin{lstlisting}[gobble=8]
 
-		int i; 		//You can define a variable outside.
+		int i;		//You can define a variable outside.
 
-		for (i = 2; i<=5000;)
+		for (i = 1; i<=5000;)
 		{
 			Serial.println(i);
 			i*=2	//You can increment i here too.
@@ -610,6 +618,17 @@
 		\end{lstlisting}
 
 		All the three parameters are optional in a for loop, but the two \inlncd{;} must be present.
+
+		For loops are useful to cycle through arrays.
+
+		\begin{lstlisting}[gobble=8]
+		int myInts[5]={4,7,2,0,1}
+
+		for (int i=0; i<5; i++)
+		{
+			Serial.println(myInts[i]);
+		}
+		\end{lstlisting}
 
 \section{Functions}
 	
@@ -942,5 +961,14 @@
 			\end{lstlisting}
 
 			If you run the above sketch, you will see that the original variable \inlncd{a} has been modified.
+
+\section{Further Learning}
+
+	\begin{itemize}
+		\item Getting Started with Arduino \url{www.arduino.cc/en/Guide/HomePage}
+		\item Tutorials \url{www.arduino.cc/en/Tutorial/HomePage}
+		\item Reference \url{www.arduino.cc/en/Reference/HomePage}
+		\item Jeremy Blum's tutorial series \url{//www.youtube.com/playlist?list=PLA567CE235D39FA84}
+	\end{itemize}
 
 \end{document}
