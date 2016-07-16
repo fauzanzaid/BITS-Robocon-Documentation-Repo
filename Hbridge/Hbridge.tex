@@ -1,9 +1,59 @@
 \documentclass{article}
-\title{Basic concepts about H Bridge}, \author{Fauzan}
-\usepackage[driverfallback=dvipdfm]{hyperref}
+
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[a4paper]{geometry}
+% \usepackage{menukeys}
+
+% For tilde
+\usepackage{textcomp}
+
+\usepackage[driverfallback=dvipdfm, pdfborder={1 1 0.75}]{hyperref}
+
+\definecolor{lgray}{rgb}{0.8,0.8,0.8}
+\definecolor{dgrin}{rgb}{0,0.6,0}
+\definecolor{ngray}{rgb}{0.5,0.5,0.5}
+\definecolor{nmauv}{rgb}{0.58,0,0.82}
+
+
+\lstset{frame=tb,
+	aboveskip=3mm,
+	language=C++,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle={\small\ttfamily\color{ngray}},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dgrin},
+	stringstyle=\color{nmauv},
+	backgroundcolor=\color{lgray},
+	breaklines=true,
+	frame=single,
+	breakatwhitespace=true,
+	tabsize=4
+}
+\renewcommand\lstlistingname{Snippet}
+\renewcommand\lstlistlistingname{Snippet}
+\def\lstlistingautorefname{Snp.}
+
+\title{Basic concept about H Bridge}
+\author{Fauzan}
+
 \begin{document}
 
+\newcommand{\inlncd}[1]{\colorbox{lgray}{\texttt{#1}}}
+
 \maketitle
+
+% \tableofcontents
+
+% \newpage
+
 We will talk about basic H Bridge in this article.
 
 \end{document}
