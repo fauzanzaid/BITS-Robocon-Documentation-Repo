@@ -2,16 +2,21 @@
 
 \usepackage{color}
 \usepackage{xcolor}
-\usepackage{fancyvrb}
 \usepackage{graphicx}
+\usepackage{epstopdf}
 \usepackage{listings}
 \usepackage[a4paper]{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
 % \usepackage{menukeys}
 
 % For tilde
 \usepackage{textcomp}
 
 \usepackage[driverfallback=dvipdfm, pdfborder={1 1 0.75}]{hyperref}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
 
 \definecolor{lgray}{rgb}{0.8,0.8,0.8}
 \definecolor{dgrin}{rgb}{0,0.6,0}
@@ -41,7 +46,7 @@
 \renewcommand\lstlistlistingname{Snippet}
 \def\lstlistingautorefname{Snp.}
 
-\title{Basic concept about H Bridge}
+\title{Basic concepts of H Bridge}
 \author{Fauzan}
 
 \begin{document}
@@ -54,6 +59,79 @@
 
 % \newpage
 
-We will talk about basic H Bridge in this article.
+\section{The need}
+
+	Most power supplies like batteries have two terminals, negative (\texttt{-}) and positive (\texttt{+}). They can also be referred to as \texttt{GND} and \texttt{POSITIVE}. As long as we want to move in one direction, a simple SPST\footnote{go through \url{https://en.wikipedia.org/wiki/Switch\#Contact\_terminology}} (single-pole, single-throw) switch in between the motor and the battery is fine. But if we want to move the motor in the reverse direction, we need more switches. This particular arrangement of switches is known as an H bridge.
+
+\section{The circuit}
+
+	Lets call the two motor terminals \texttt{A} and \texttt{B}. Our circuit must be able to join \texttt{A}-\texttt{POSITIVE} and \texttt{B}-\texttt{GND} for one direction; and \texttt{A}-\texttt{GND} and \texttt{B}-\texttt{POSITIVE} for the opposite direction. Thus, we need four SPST switches:
+
+	\begin{enumerate}
+
+		\item \texttt{S1} between \texttt{A} and \texttt{POSITIVE}
+		\item \texttt{S2} between \texttt{A} and \texttt{GND}
+		\item \texttt{S3} between \texttt{B} and \texttt{POSITIVE}
+		\item \texttt{S4} between \texttt{B} and \texttt{GND}
+
+	\end{enumerate}
+
+
+	\begin{figure}[h]
+		\centering
+			\includegraphics[scale=1.8,natwidth=892,natheight=540]{./Resources/Images/Dev/H_bridge_HL}
+		\caption{H bridge is the highlighted portion}
+	\end{figure}
+
+\section{States}
+	
+	Each switch in the H bridge can be \texttt{ON} or \texttt{OFF}. This leads to various combinations.
+
+	\begin{table}[h]
+	\caption{H bridge truth table}
+		\begin{center}
+		\begin{tabular}{|c|c|c|c|l|}
+			\hline
+			\texttt{S1} & \texttt{S2} & \texttt{S3} & \texttt{S4} & Result \\ \hline
+			\texttt{1} & \texttt{0} & \texttt{0} & \texttt{1} & Motor moves right \\ \hline
+			\texttt{0} & \texttt{1} & \texttt{1} & \texttt{0} & Motor moves left \\ \hline
+			\texttt{1} & \texttt{1} & \texttt{0} & \texttt{0} & Motor brakes \\ \hline
+			\texttt{0} & \texttt{0} & \texttt{1} & \texttt{1} & Motor brakes \\ \hline
+			\texttt{1} & \texttt{X} & \texttt{1} & \texttt{X} & Short circuit \\ \hline
+			\texttt{X} & \texttt{1} & \texttt{X} & \texttt{1} & Short circuit \\ \hline
+		\end{tabular}
+		\end{center}
+	\end{table}
+
+	
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{./Resources/Images/Dev/H_bridge_ON1}
+			\caption{Right}
+		\end{subfigure}
+		~
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{./Resources/Images/Dev/H_bridge_ON2}
+			\caption{Left}
+		\end{subfigure}
+		\\~\\
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{./Resources/Images/Dev/H_bridge_FR1}
+			\caption{Free}
+		\end{subfigure}
+		~
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{./Resources/Images/Dev/H_bridge_BK1}
+			\caption{Brake}
+		\end{subfigure}
+		\caption{Few states of the H bridge}\label{fig:animals}
+	\end{figure}
+
+	When one or no switches are \texttt{ON}, the motor is free.
+
+\section{Usage}
+	
+	An H bridge can be made up of relays or transistors. H bridge and driver circuits in a combined package are also available.
 
 \end{document}
