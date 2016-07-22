@@ -2,6 +2,22 @@
 
 \usepackage{color}
 \usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{{/home/fauzan/Documents/BITS/Robocon/Documentation/Binaries/L293d/Resources/Images/}}
+\usepackage{epstopdf}
+\usepackage{listings}
+\usepackage[a4paper]{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+% \usepackage{menukeys}
+
+% For tilde
+\usepackage{textcomp}
+
+\usepackage[driverfallback=dvipdfm, pdfborder={1 1 0.75}]{hyperref}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
 
 \definecolor{lgray}{rgb}{0.8,0.8,0.8}
 \definecolor{dgrin}{rgb}{0,0.6,0}
@@ -31,12 +47,101 @@
 \renewcommand\lstlistlistingname{Snippet}
 \def\lstlistingautorefname{Snp.}
 
+\title{L293D Dual H bridge motor driver}
+\author{Fauzan}
+
+\setlength{\fboxsep}{2pt}
+
 \begin{document}
 
 \newcommand{\inlncd}[1]{\colorbox{lgray}{\texttt{#1}}}
+\newcommand{\icpin}[2]{\setlength{\fboxsep}{0pt} \fbox{\texttt{\colorbox{lgray}{\strut{}\,PIN~#1\,}\,#2\,}} \setlength{\fboxsep}{2pt}}
 
-\title{The L293D}
-\author{Fauzan}
+
 \maketitle
+
+% \tableofcontents
+
+% \newpage
+
+\section{Introduction}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.3\textwidth]{L293d.jpeg}
+	\end{figure}
+
+	The L293D is a dual H bridge motor drive. It is also described as a quadruple half H bridge motor driver. It is 16 pin IC. The D stands for for the inbuilt kick back diodes that can shield the IC from inductive kick backs.
+
+	The IC can supply 600~mA per channel, and can manage 1200~mA for short intervals. It can drive motors with voltage from 4.5 to 36V.
+
+	The IC can drive four resistive loads, two DC motors bidirectionally, or one stepper motor at a time.
+
+\newpage
+
+\section{Pins}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{L293d_pin}
+		\caption{Pin layout of an L293D}
+	\end{figure}
+
+	All ICs have a notch on one side to identify the top. Pins are then numbered anti clockwise from the top left.
+
+	\begin{table}[h]
+	\large
+	\caption{Pin description}
+		\begin{center}
+		\begin{tabular}{|c|c|c|l|}
+			\hline
+			Pin name & Pin Number & Type & Description \\ \hline \hline
+			1,2EN & 1 & Input & Enable driver channels 1 and 2 (active high) \\ \hline
+			\textless{}1:4\textgreater{}A & 2, 7, 10, 15 & Input & Driver inputs (Non inverting) \\ \hline
+			\textless{}1:4\textgreater{}Y & 3, 6, 11, 14 & Output & Driver Outputs \\ \hline
+			3,4EN & 9 & Input & Enable driver channels 1 and 2 (active high) \\ \hline
+			Ground & 4, 5, 12, 13 & -- & Ground and heat sink \\ \hline
+			V\textsubscript{CC1} & 16 & -- & 5V supply for internal lohic \\ \hline
+			V\textsubscript{CC2} & 8 & -- & Power supply for outputs \\ \hline
+		\end{tabular}
+		\end{center}
+	\end{table}
+
+\newpage
+
+\section{Using the IC}
+
+	Make the following power connections
+
+	\begin{enumerate}
+		\item Connect \icpin{16}{V\textsubscript{CC1}} to 5V.
+		\item Connect \icpin{4/5/12/13}{GND} to ground.
+		\item Connect \icpin{16}{V\textsubscript{CC2}} to rated power supply for driving the load.
+	\end{enumerate}
+
+	All four channels are currently disabled. When \icpin{1}{EN1,2} and/or \icpin{9}{EN3,4} are \texttt{LOW}, the corresponding drivers are off and respective outputs, \icpin{3/6}{1Y/2Y} and/or \icpin{11/14}{3Y/4Y} are off and in high impedance state.
+
+	Before using any driver, the corresponding enable pin should  be input logic \texttt{HIGH}.
+
+	Suppose, \icpin{1}{EN1.2} is input \texttt{HIGH}. Now channels 1 and 2 are enabled. If you now input \texttt{HIGH} to \icpin{2}{1A}, then \icpin{3}{1Y} will output \texttt{V\textsubscript{CC2}}. If you ground \icpin{2}{1A}, then \icpin{3}{1Y} will also be grounded. Same affect will be observed with the second channel.
+
+	You can similarly enable the third and fourth channel by giving \texttt{HIGH} input to \icpin{9}{EN3.4}.
+
+	Analog voltages can be simulated by giving PWM to the channel inputs.
+
+\newpage
+	
+\section{Driving two motors}
+
+	Carefully trace and understand all the connections from the IC in the below circuit. It is also important to connect the grounds of the two power sources.
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{L293d_2motor}
+
+		Simulate the circuit -- \url{https://circuits.io/circuits/2459188}
+		\caption{Circuit to drive two DC motors}
+	\end{figure}
+
 
 \end{document}
