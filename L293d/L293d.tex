@@ -55,7 +55,7 @@
 \begin{document}
 
 \newcommand{\inlncd}[1]{\colorbox{lgray}{\texttt{#1}}}
-\newcommand{\icpin}[2]{\setlength{\fboxsep}{0pt} \fbox{\texttt{\colorbox{lgray}{\strut{}\,PIN~#1\,}\,#2\,}} \setlength{\fboxsep}{2pt}}
+\newcommand{\icpin}[2]{\setlength{\fboxsep}{0pt}\fbox{\texttt{\colorbox{lgray}{\strut{}\,PIN~#1\,}\,#2\,}}\setlength{\fboxsep}{2pt}}
 
 
 \maketitle
@@ -101,7 +101,7 @@
 			\textless{}1:4\textgreater{}Y & 3, 6, 11, 14 & Output & Driver Outputs \\ \hline
 			3,4EN & 9 & Input & Enable driver channels 1 and 2 (active high) \\ \hline
 			Ground & 4, 5, 12, 13 & -- & Ground and heat sink \\ \hline
-			V\textsubscript{CC1} & 16 & -- & 5V supply for internal lohic \\ \hline
+			V\textsubscript{CC1} & 16 & -- & 5V supply for internal logic \\ \hline
 			V\textsubscript{CC2} & 8 & -- & Power supply for outputs \\ \hline
 		\end{tabular}
 		\end{center}
@@ -125,7 +125,7 @@
 
 	Suppose, \icpin{1}{EN1.2} is input \texttt{HIGH}. Now channels 1 and 2 are enabled. If you now input \texttt{HIGH} to \icpin{2}{1A}, then \icpin{3}{1Y} will output \texttt{V\textsubscript{CC2}}. If you ground \icpin{2}{1A}, then \icpin{3}{1Y} will also be grounded. Same affect will be observed with the second channel.
 
-	You can similarly enable the third and fourth channel by giving \texttt{HIGH} input to \icpin{9}{EN3.4}.
+	You can similarly enable the third and fourth channel by giving \texttt{HIGH} input to \icpin{9}{EN3,4}.\@
 
 	Analog voltages can be simulated by giving PWM to the channel inputs.
 
@@ -133,15 +133,28 @@
 	
 \section{Driving two motors}
 
-	Carefully trace and understand all the connections from the IC in the below circuit. It is also important to connect the grounds of the two power sources.
+	Let us now wire up two motors, four potentiometers, an L293D and an Arduino Uno. With the help of pots, we will generate a voltage between 0 and 5V. We can not directly apply this voltage at the driver inputs as the L293D is a digital IC. It can only take either \texttt{HIGH} or \texttt{LOW} as input at \icpin{1A/2A/3A/4A}{2/7/10/15}. We can use PWM here. The Arduino will read the analog voltages and give PWM signals as output. This PWM can now be fed to the L293D, and will give a PWM output.\@
 
-	\begin{figure}[h]
+	Carefully trace and understand all the connections from the IC in the below circuit. Make sure you understand why the two ground rails have been shorted.
+
+
+	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.8\textwidth]{L293d_2motor}
+		\includegraphics[width=0.6\textwidth]{circuits_io_2467280.png}
 
-		Simulate the circuit -- \url{https://circuits.io/circuits/2459188}
+		Simulate the circuit -- \url{https://circuits.io/circuits/2467280}
 		\caption{Circuit to drive two DC motors}
 	\end{figure}
+
+	Here's the code:
+	
+	\lstinputlisting{./Resources/Codes/L293d_pot/L293d_pot.ino}
+
+	Try to write code that uses just one pot per motor.
+
+\section{Further Reading}
+
+	Data sheet \url{http://www.ti.com/lit/ds/slrs008d/slrs008d.pdf}
 
 
 \end{document}
